@@ -8,6 +8,7 @@ import model.tiles.units.enemies.Monster;
 import model.tiles.units.players.Mage;
 import model.tiles.units.players.Player;
 import model.tiles.units.players.Warrior;
+import model.tiles.units.players.Rogue;
 import utils.Position;
 import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
@@ -26,14 +27,14 @@ public class TileFactory {
             () -> new Warrior("The Hound", 20, 6, 400, 5),
             () -> new Mage("Melisandre", 100, 2, 1,300,30,15,5,6),
             () -> new Mage("Thoros of Myr", 250, 25, 4,150,20,20,3,4),
-            () -> new Rouge("Arya Stark", 150, 40, 2, 20),
-            () -> new Rouge("Bronn", 250, 35, 3, 50)
+            () -> new Rogue("Arya Stark", 150, 40, 2, 20),
+            () -> new Rogue("Bronn", 250, 35, 3, 50)
     );
 
     private static final Map<Character, Supplier<Enemy>> enemyTypes = Map.of(
-            's', () -> new Monster('s', "Enemy1", 10, 5, 2, 0),
-            'q', () -> new Enemy('q', "Enemy2", 15, 3, 3, 1),
-            'T', () -> new Enemy('T', "Enemy3", 20, 2, 4, 2)
+            's', () -> new Monster('s', "Lannister Solider", 80, 8, 3, 25,3),
+            'k', () -> new Monster('q', "Enemy2", 15, 3, 3, 1),
+            'q', () -> new Monster('T', "Enemy3", 20, 2, 4, 2)
     );
     public TileFactory(){
     }
