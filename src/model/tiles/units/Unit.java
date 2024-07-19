@@ -74,5 +74,7 @@ public abstract class Unit extends Tile {
         deathCallback.onDeath();
     }
 
+    public Health getHealth(){ return health;}
+
 
 }
