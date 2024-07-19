@@ -2,14 +2,16 @@ package model.tiles.units.players;
 
 import model.tiles.units.enemies.Enemy;
 
+import java.util.List;
+
 public class Rogue extends Player{
     private final int MAX_ENERGY = 100;
     private final int ADDITIONAL_ATTACK = 3;
     private int cost;
     private int currEnergy;
 
-    public Rogue( String name, int hitPoints, int attack, int defense, int cost){
-        super(name, hitPoints, attack, defense);
+    public Rogue(String name, int health, int attack, int defense, int cost){
+        super(name, health, attack, defense);
         this.cost = cost;
         this.currEnergy = MAX_ENERGY;
     }
@@ -26,10 +28,13 @@ public class Rogue extends Player{
     }
 
     //use special ability
-    public void useSA(){
+    public void useSA(List<Enemy> enemies){
         this.currEnergy -= this.cost;
-        for(Enemy enemy : someList){
+        for(Enemy enemy : enemies){
             if(this.position.range(enemy.getPosition())<2){
+                int damage = this.attack();
+                int actualDamage = Math.max(0, damage - enemy.defend());
+                enemy.getHealth().setCurrent(enemy.getHealth().getCurrent() - actualDamage);
 
             }
         }
