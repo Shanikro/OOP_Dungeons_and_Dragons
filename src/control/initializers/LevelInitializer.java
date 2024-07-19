@@ -1,5 +1,11 @@
 package control.initializers;
 
+import model.tiles.Empty;
+import model.tiles.Tile;
+import model.tiles.Wall;
+import model.tiles.units.players.Player;
+import utils.Position;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,10 +14,12 @@ import java.util.List;
 
 public class LevelInitializer {
     private int playerID;
+    private TileFactory tileFactory = new TileFactory();
 
     public LevelInitializer(int playerID){
         this.playerID = playerID;
     }
+
     public void initLevel(String levelPath){
         List<String> lines;
         try {
@@ -20,23 +28,29 @@ public class LevelInitializer {
             throw new RuntimeException(e);
         }
 
+        int row = 0;
         for(String line : lines){
+            int col = 0;
             for(char c : line.toCharArray()){
+                Position position = new Position(col, row);
                 switch(c) {
                     case '.':
-                        // create empty tile
+                        tileFactory.produceEmpty(position);
                         break;
                     case '#':
-                        // create wall tile
+                        tileFactory.produceWall(position);
                         break;
                     case '@':
-                        // create player tile
+                        tileFactory.producePlayer(playerID);
                         break;
                     default:
-                        // create enemy tile
+                        tileFactory.produceEnemy(position);
                         break;
                 }
+                col++;
             }
+            row++;
+        }
         }
     }
 }

@@ -4,7 +4,10 @@ import model.tiles.Empty;
 import model.tiles.Tile;
 import model.tiles.Wall;
 import model.tiles.units.enemies.Enemy;
+import model.tiles.units.enemies.Monster;
+import model.tiles.units.players.Mage;
 import model.tiles.units.players.Player;
+import model.tiles.units.players.Warrior;
 import utils.Position;
 import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
@@ -19,13 +22,16 @@ import java.util.function.Supplier;
 public class TileFactory {
     private Player p;
     private static final List<Supplier<Player>> playerTypes = Arrays.asList(
-            () -> new Player("Player1", 10, 5, 2),
-            () -> new Player("Player2", 15, 3, 3),
-            () -> new Player("Player3", 20, 2, 4)
+            () -> new Warrior("Jon Snow", 30, 4, 300, 3),
+            () -> new Warrior("The Hound", 20, 6, 400, 5),
+            () -> new Mage("Melisandre", 100, 2, 1,300,30,15,5,6),
+            () -> new Mage("Thoros of Myr", 250, 25, 4,150,20,20,3,4),
+            () -> new Rouge("Arya Stark", 150, 40, 2, 20),
+            () -> new Rouge("Bronn", 250, 35, 3, 50)
     );
 
     private static final Map<Character, Supplier<Enemy>> enemyTypes = Map.of(
-            's', () -> new Enemy('s', "Enemy1", 10, 5, 2, 0),
+            's', () -> new Monster('s', "Enemy1", 10, 5, 2, 0),
             'q', () -> new Enemy('q', "Enemy2", 15, 3, 3, 1),
             'T', () -> new Enemy('T', "Enemy3", 20, 2, 4, 2)
     );
