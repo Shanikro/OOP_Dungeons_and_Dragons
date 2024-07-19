@@ -2,6 +2,7 @@ package model.tiles.units.enemies;
 
 import model.tiles.units.Unit;
 import model.tiles.units.players.Player;
+import utils.Position;
 
 public class Enemy extends Unit {
     protected int experienceValue;
