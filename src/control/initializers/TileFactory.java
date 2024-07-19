@@ -5,6 +5,7 @@ import model.tiles.Tile;
 import model.tiles.Wall;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.enemies.Monster;
+import model.tiles.units.enemies.Trap;
 import model.tiles.units.players.Mage;
 import model.tiles.units.players.Player;
 import model.tiles.units.players.Warrior;
@@ -33,8 +34,19 @@ public class TileFactory {
 
     private static final Map<Character, Supplier<Enemy>> enemyTypes = Map.of(
             's', () -> new Monster('s', "Lannister Solider", 80, 8, 3, 25,3),
-            'k', () -> new Monster('q', "Enemy2", 15, 3, 3, 1),
-            'q', () -> new Monster('T', "Enemy3", 20, 2, 4, 2)
+            'k', () -> new Monster('k', "Lannister Knight", 200, 14, 8, 4, 50),
+            'q', () -> new Monster('q', "Queen’s Guard", 400, 20 , 15, 5, 100),
+            'z', () -> new Monster('z', "Wright", 600, 30 , 15, 3, 100),
+            'b', () -> new Monster('b', "Bear-Wright", 1000, 75 , 30, 4, 250),
+            'g', () -> new Monster('g', "Giant-Wright", 1500, 100 , 40, 5, 500),
+            'w', () -> new Monster('w', "White Walker", 2000, 150 , 50, 6, 1000),
+            'M', () -> new Monster('M', "The Mountain", 1000, 60 , 25, 6, 500),
+            'C', () -> new Monster('C', "Queen Cersei", 100, 10 , 10, 1, 1000),
+            'K', () -> new Monster('K', "Night’s King", 5000, 300 , 150, 8, 5000),
+            'K', () -> new Trap('B', "Bonus Trap", 1, 1 , 1, 250,1,5),
+            'Q', () -> new Trap('Q', "Queen’s Trap", 250, 50 , 10, 100,3,7),
+            'D', () -> new Trap('D', "Death Trap", 500, 100 , 20, 250,1,10)
+
     );
     public TileFactory(){
     }
