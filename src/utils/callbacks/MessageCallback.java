@@ -1,5 +1,5 @@
 package utils.callbacks;
 
 public interface MessageCallback {
-    void send(String message);
+    public void send(String message);
 }

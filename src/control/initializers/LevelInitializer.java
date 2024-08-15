@@ -47,7 +47,7 @@ public class LevelInitializer {
                         tileFactory.producePlayer(playerID);
                         break;
                     default:
-                        tileFactory.produceEnemy(c, position, new DeathCallback(), new FixedGenerator(), new MessageCallback());
+                        tileFactory.produceEnemy(c, position, , new FixedGenerator(),);
                         break;
                 }
                 col++;
