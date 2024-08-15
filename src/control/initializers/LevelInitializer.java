@@ -5,6 +5,9 @@ import model.tiles.Tile;
 import model.tiles.Wall;
 import model.tiles.units.players.Player;
 import utils.Position;
+import utils.callbacks.DeathCallback;
+import utils.callbacks.MessageCallback;
+import utils.generators.FixedGenerator;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,7 +47,7 @@ public class LevelInitializer {
                         tileFactory.producePlayer(playerID);
                         break;
                     default:
-                        tileFactory.produceEnemy(c,position, new );
+                        tileFactory.produceEnemy(c, position, new DeathCallback(), new FixedGenerator(), new MessageCallback());
                         break;
                 }
                 col++;

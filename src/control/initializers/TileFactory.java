@@ -15,40 +15,42 @@ import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
 import utils.generators.Generator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class TileFactory {
     private Player p;
-    private static final List<Supplier<Player>> playerTypes = Arrays.asList(
-            () -> new Warrior("Jon Snow", 30, 4, 300, 3),
-            () -> new Warrior("The Hound", 20, 6, 400, 5),
-            () -> new Mage("Melisandre", 100, 2, 1,300,30,15,5,6),
-            () -> new Mage("Thoros of Myr", 250, 25, 4,150,20,20,3,4),
-            () -> new Rogue("Arya Stark", 150, 40, 2, 20),
-            () -> new Rogue("Bronn", 250, 35, 3, 50)
-    );
+    private Map<Integer, Supplier<Player>> playerTypes;
+    private Map<Character, Supplier<Enemy>> enemiesTypes;
 
-    private static final Map<Character, Supplier<Enemy>> enemyTypes = Map.of(
-            's', () -> new Monster('s', "Lannister Solider", 80, 8, 3, 25,3),
-            'k', () -> new Monster('k', "Lannister Knight", 200, 14, 8, 4, 50),
-            'q', () -> new Monster('q', "Queen’s Guard", 400, 20 , 15, 5, 100),
-            'z', () -> new Monster('z', "Wright", 600, 30 , 15, 3, 100),
-            'b', () -> new Monster('b', "Bear-Wright", 1000, 75 , 30, 4, 250),
-            'g', () -> new Monster('g', "Giant-Wright", 1500, 100 , 40, 5, 500),
-            'w', () -> new Monster('w', "White Walker", 2000, 150 , 50, 6, 1000),
-            'M', () -> new Monster('M', "The Mountain", 1000, 60 , 25, 6, 500),
-            'C', () -> new Monster('C', "Queen Cersei", 100, 10 , 10, 1, 1000),
-            'K', () -> new Monster('K', "Night’s King", 5000, 300 , 150, 8, 5000),
-            'K', () -> new Trap('B', "Bonus Trap", 1, 1 , 1, 250,1,5),
-            'Q', () -> new Trap('Q', "Queen’s Trap", 250, 50 , 10, 100,3,7),
-            'D', () -> new Trap('D', "Death Trap", 500, 100 , 20, 250,1,10)
+    public TileFactory() {
 
-    );
-    public TileFactory(){
+        //Players
+        playerTypes = new TreeMap<>();
+        playerTypes.put(1, () -> new Warrior("Jon Snow", 30, 4, 300, 3));
+        playerTypes.put(2, () -> new Warrior("The Hound", 20, 6, 400, 5));
+        playerTypes.put(3, () -> new Mage("Melisandre", 100, 2, 1, 300, 30, 15, 5, 6));
+        playerTypes.put(4, () -> new Mage("Thoros of Myr", 250, 25, 4, 150, 20, 20, 3, 4));
+        playerTypes.put(5, () -> new Rogue("Arya Stark", 150, 40, 2, 20));
+        playerTypes.put(6, () -> new Rogue("Bronn", 250, 35, 3, 50));
+
+        // Monsters
+        enemiesTypes = new HashMap<>();
+        enemiesTypes.put('s', () -> new Monster('s', "Lannister Solider", 80, 8, 3, 25, 3));
+        enemiesTypes.put('k', () -> new Monster('k', "Lannister Knight", 200, 14, 8, 4, 50));
+        enemiesTypes.put('q', () -> new Monster('q', "Queen’s Guard", 400, 20, 15, 5, 100));
+        enemiesTypes.put('z', () -> new Monster('z', "Wright", 600, 30, 15, 3, 100));
+        enemiesTypes.put('b', () -> new Monster('b', "Bear-Wright", 1000, 75, 30, 4, 250));
+        enemiesTypes.put('g', () -> new Monster('g', "Giant-Wright", 1500, 100, 40, 5, 500));
+        enemiesTypes.put('w', () -> new Monster('w', "White Walker", 2000, 150, 50, 6, 1000));
+        enemiesTypes.put('M', () -> new Monster('M', "The Mountain", 1000, 60, 25, 6, 500));
+        enemiesTypes.put('C', () -> new Monster('C', "Queen Cersei", 100, 10, 10, 1, 1000));
+        enemiesTypes.put('K', () -> new Monster('K', "Night’s King", 5000, 300, 150, 8, 5000));
+        // Traps
+        enemiesTypes.put('B', () -> new Trap('B', "Bonus Trap", 1, 1, 1, 250, 1, 5));
+        enemiesTypes.put('Q', () -> new Trap('Q', "Queen’s Trap", 250, 50, 10, 100, 3, 7));
+        enemiesTypes.put('D', () -> new Trap('D', "Death Trap", 500, 100, 20, 250, 1, 10));
+
     }
 
     public Player producePlayer(int playerID){
@@ -62,7 +64,7 @@ public class TileFactory {
     }
 
     public Enemy produceEnemy(char tile, Position p, DeathCallback c, Generator g, MessageCallback m){
-        Enemy e = enemyTypes.get(tile).get();
+        Enemy e = enemiesTypes.get(tile).get();
         e.initialize(p, g, c, m);
         return e;
     }
