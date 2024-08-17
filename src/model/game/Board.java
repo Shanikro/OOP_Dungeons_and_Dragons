@@ -25,6 +25,10 @@ public class Board {
         }
     }
 
+    public Tile getTile(int x, int y){
+        return board.get(new Position(x, y));
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

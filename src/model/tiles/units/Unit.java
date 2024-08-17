@@ -1,5 +1,6 @@
 package model.tiles.units;
 
+import model.game.Board;
 import model.tiles.Empty;
 import model.tiles.Tile;
 import model.tiles.Wall;
@@ -19,8 +20,8 @@ public abstract class Unit extends Tile {
     protected Generator generator;
     protected MessageCallback messageCallback;
 
-    public Unit(char tile, String name, int hitPoints, int attack, int defense) {
-        super(tile);
+    public Unit(char tile, Board board, String name, int hitPoints, int attack, int defense) {
+        super(tile,board);
         this.name = name;
         this.health = new Health(hitPoints);
         this.attack = attack;

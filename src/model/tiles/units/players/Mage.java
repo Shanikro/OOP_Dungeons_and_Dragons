@@ -1,6 +1,8 @@
 package model.tiles.units.players;
 
+import model.game.Board;
 import model.tiles.units.enemies.Enemy;
+import utils.callbacks.MessageCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +23,8 @@ public class Mage  extends Player{
     private Random random;
 
 
-    public Mage(String name, int health, int attack, int defense, int manaCap, int manaCost, int spellPower, int hitsCount, int abilityRange) {
-        super(name, health, attack, defense);
+    public Mage(String name, Board board, int health, int attack, int defense, int manaCap, int manaCost, int spellPower, int hitsCount, int abilityRange) {
+        super(name, board, health, attack, defense);
         this.manaCap = manaCap;
         this.manaCurr = manaCap/4;
         this.manaCost = manaCost;
@@ -44,8 +46,9 @@ public class Mage  extends Player{
         this.manaCurr = Math.min( this.manaCap, this.manaCurr + this.level);
     }
 
+    @Override
     //use special ability
-    public void useSA(List<Enemy> enemies){
+    public MessageCallback useSA(List<Enemy> enemies){
         this.manaCurr -= this.manaCost ;
         int hits = 0;
         while (hits < hitsCount && hasLivingEnemyInRange(enemies)) {

@@ -1,5 +1,6 @@
 package model.tiles;
 
+import model.game.Board;
 import model.tiles.units.Unit;
 import utils.Position;
 import utils.VisitorPatterns.Visited;
@@ -9,10 +10,12 @@ import utils.printer.*;
 public abstract class Tile implements Visitor , Visited {
     protected char tile;
     protected Position position;
+    protected Board board;
     protected static final Printer printer = PrinterC.getInstance();
 
-    public Tile(char tile){
+    public Tile(char tile,Board board){
         this.tile = tile;
+        this.board = board;
     }
 
     public Tile initialize(Position p){
