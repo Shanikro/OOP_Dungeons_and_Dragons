@@ -1,71 +1,101 @@
 package model.tiles.units.enemies;
 
+import model.game.Board;
+import model.tiles.Tile;
 import model.tiles.units.players.Player;
 import utils.Position;
+import utils.callbacks.MessageCallback;
 
 public class Monster extends Enemy {
 
     private int visionRange;
 
-    public Monster(char tile, String name, int hitPoints, int attack, int defense, int experienceValue, int visionRange) {
-        super(tile, name, hitPoints, attack, defense, experienceValue);
+    public Monster(char tile, Board board, String name, int hitPoints, int attack, int defense, int experienceValue, int visionRange) {
+        super(tile, board, name, hitPoints, attack, defense, experienceValue);
         this.visionRange = visionRange;
     }
 
-    public void takeTurn(Player player) {
+    public MessageCallback takeTurn(Player player) {
 
+        //The player is already dead
+        if(!player.isAlive()) {
+            return () -> {};
+        }
+
+        //The player in range
         if (this.getPosition().range(player.getPosition()) < visionRange) {
+            Tile swapWith ;
             int dx = this.getPosition().getX() - player.getPosition().getX();
             int dy = this.getPosition().getY() - player.getPosition().getY();
 
             if (Math.abs(dx) > Math.abs(dy)) {
                 if (dx > 0) {
-                    moveLeft();
+                    swapWith = left();
                 } else {
-                    moveRight();
+                    swapWith = right();
                 }
             } else {
                 if (dy > 0) {
-                    moveUp();
+                    swapWith = up();
                 } else {
-                    moveDown();
+                    swapWith = down();
                 }
             }
+            return swapWith.accept(this);
         }
+
+        // Random movement or stay in place
         else {
-            // Random movement or stay in place
-           randomMovement();
+           return randomMovement();
         }
     }
 
-    private void moveLeft() { this.getPosition().setX(getPosition().getX()-1);}
+    private Tile left() {
+        return board.getTile(this.getPosition().getX(), this.getPosition().getY() - 1);
+    }
 
-    private void moveRight() { this.getPosition().setX(getPosition().getX()+1);}
+    private Tile right() {
+        return board.getTile(this.getPosition().getX(), this.getPosition().getY() + 1);
+    }
 
-    private void moveUp() { this.getPosition().setY(getPosition().getY()-1);}
+    private Tile up() {
+        return board.getTile(this.getPosition().getX() - 1, this.getPosition().getY());
+    }
 
-    private void moveDown() { this.getPosition().setY(getPosition().getY()+1);}
+    private Tile down() {
+        return board.getTile(this.getPosition().getX() + 1, this.getPosition().getY());
+    }
 
-    private void randomMovement() {
+    private MessageCallback randomMovement() {
+        Tile swapWith = null;
         int move = this.generator.generate(5);
 
         switch (move) {
             case 0:
-                moveLeft();
-                break;
+                swapWith = left();
             case 1:
-                moveRight();
-                break;
+                swapWith = right();
             case 2:
-                moveUp();
-                break;
+                swapWith = up();
             case 3:
-                moveDown();
-                break;
+                swapWith = down();
             case 4:
                 // Stay in place
-                break;
         }
+        if (swapWith != null){
+            return swapWith.accept(this);
+        }
+        return ()->{};
+    }
+
+    @Override
+    public String describe()
+    {
+        return String.format("""
+                        %s\t\t\tHealth: %d/%d\t\t\tAttack: %d\t\t\tDefense: %d\t\t\tExperience: %d
+                        \t\t\tVisionRange: %d
+                        """,
+                name, health.getCurrent(), health.getCapacity(), getAttack(), getDefense(), experienceValue ,visionRange);
     }
 }
 

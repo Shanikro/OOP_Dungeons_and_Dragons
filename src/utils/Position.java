@@ -20,14 +20,4 @@ public class Position {
     public int getY() {
         return y;
     }
-
-    public void setX(int x) {
-        //TODO : check if not out of board
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        //TODO : check if not out of board
-        this.y = y;
-    }
 }
