@@ -71,7 +71,7 @@ public class Mage  extends Player{
         StringBuilder output = new StringBuilder();
 
         if (manaCurr < manaCost){
-            output.append(getName()).append(String.format("tried to cast Blizzard, but there was'nt enougt mana: %s.\n", manaCurr));
+            output.append(getName()).append(String.format(" tried to cast Blizzard, but there was'nt enougt mana: %s.\n", manaCurr));
             return ()-> printer.print(output.toString());
         }
 
@@ -130,7 +130,7 @@ public class Mage  extends Player{
                         \t\t\tExperience: %d/%d\t\t\tManaPool: %d\t\t\tCurrentMana: %d\t\t\tManaCost: %d
                         \t\t\tSpellPower: %d\t\t\tHitsCount: %d\t\t\tAbilityRange: %d
                         """,
-                name, health.getCurrent(), getAttack(), getDefense(), getLevel(), getExperience(), manaCap, manaCurr, manaCost, spellPower, hitsCount, abilityRange);
+                name, health.getCapacity(), health.getCurrent(), getAttack(), getDefense(), getLevel(), getExperience(), levelRequirement(), manaCap, manaCurr, manaCost, spellPower, hitsCount, abilityRange);
 
     }
 
