@@ -1,5 +1,6 @@
 package model.tiles.units.enemies;
 
+import model.game.Board;
 import model.tiles.units.Unit;
 import model.tiles.units.players.Player;
 
@@ -9,8 +10,8 @@ public class Trap extends Enemy {
     private int ticksCount;
     private boolean visible;
 
-    public Trap(char tile, String name, int hitPoints, int attack, int defense, int experienceValue, int visibilityTime, int invisibilityTime) {
-        super(tile, name, hitPoints, attack, defense, experienceValue);
+    public Trap(char tile, Board board ,String name, int hitPoints, int attack, int defense, int experienceValue, int visibilityTime, int invisibilityTime) {
+        super(tile,board, name, hitPoints, attack, defense, experienceValue);
         this.visibilityTime = visibilityTime;
         this.invisibilityTime = invisibilityTime;
         this.ticksCount = 0;
@@ -30,4 +31,5 @@ public class Trap extends Enemy {
             battle(player);
         }
     }
-    }
+
+}
