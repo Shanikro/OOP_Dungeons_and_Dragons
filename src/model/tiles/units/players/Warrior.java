@@ -56,7 +56,7 @@ public class Warrior extends Player {
     }
     //game tick
     public void gameTick(){
-        this.remainingCooldown= Math.max(remainingCooldown--,0);
+        this.remainingCooldown = Math.max(remainingCooldown--,0);
     }
 
     @Override
@@ -72,11 +72,7 @@ public class Warrior extends Player {
         output.append(getName()).append(" cast Avenger's Shield\n");
 
          List<Enemy> enemies = board.enemiesInRange(3);
-        /* for (Enemy enemy : enemies) {
-             if (this.position.range(enemy.getPosition()) < 3) {
-                 enemiesInRange.add(enemy);
-             }
-         }*/
+        
          if (!enemies.isEmpty()) {
              int index = random.nextInt(enemies.size());
              Enemy target = enemies.get(index);
@@ -85,7 +81,18 @@ public class Warrior extends Player {
              target.getHealth().setCurrent(target.getHealth().getCurrent() - actualDamage);
              // System.out.println("Enemy " + target.getName() + " took " + actualDamage + " damage.");
          }
+        return ()-> printer.print(output.toString());
      }
+    @Override
+    public String describe()
+    {
+        return String.format("""
+                        %s\t\t\tHealth: %d/%d\t\t\tAttackPoints: %d\t\t\tDefensePoints: %d\t\t\tLevel: %d
+                        \t\t\tExperience: %d/%d\t\t\tCooldown: %d/%d
+                        """,
+                name, health.getCurrent(), health.getCapacity(), getAttack(), getDefense(), getLevel(), getExperience(), levelRequirement(), remainingCooldown, abilityCooldown);
+
+    }
 }
 
 
