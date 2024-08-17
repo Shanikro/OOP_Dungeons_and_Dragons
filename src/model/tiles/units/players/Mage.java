@@ -41,6 +41,8 @@ public class Mage  extends Player{
         int attackB = getAttack();
         int defenceB = getDefense();
         int healthB = health.getCurrent();
+        int manaB = manaCap;
+        int spellB = spellPower;
 
         super.levelUp();
         this.manaCap += MAGE_ADDITIONAL_MANA_CAP * this.level;
@@ -51,9 +53,11 @@ public class Mage  extends Player{
         int attackDiff = getAttack() - attackB;
         int defenceDiff = getDefense() - defenceB;
         int healthDiff = health.getCurrent() - healthB;
+        int manaDiff =  manaCap - manaB;
+        int spellDiff = spellPower - spellB;
 
-        return () -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
-                , getName(), getLevel(), healthDiff, attackDiff, defenceDiff);
+        return () -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d maximum mana, +%d spell power\n"
+                , getName(), getLevel(), healthDiff, attackDiff, defenceDiff, manaDiff, spellDiff);
     }
 
     //game tick
@@ -129,4 +133,5 @@ public class Mage  extends Player{
                 name, health.getCurrent(), getAttack(), getDefense(), getLevel(), getExperience(), manaCap, manaCurr, manaCost, spellPower, hitsCount, abilityRange);
 
     }
+
 }

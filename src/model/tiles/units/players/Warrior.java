@@ -1,10 +1,12 @@
 package model.tiles.units.players;
 
+import model.game.Board;
 import utils.Position;
 import model.tiles.Tile;
 import utils.Health;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
+import utils.callbacks.MessageCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,42 +23,63 @@ public class Warrior extends Player {
     private int remainingCooldown;
     private Random random;
 
-    public Warrior(String name ,  int attackPoints, int defensePoints, int health, int abilityCooldown)
+    public Warrior(String name , Board board, int attackPoints, int defensePoints, int health, int abilityCooldown)
     {
-        super(name,health,attackPoints,defensePoints);
+        super(name,board,health,attackPoints,defensePoints);
 
         this.abilityCooldown = abilityCooldown;
         this.remainingCooldown = 0;
         this.random = new Random();
     }
 
-    public void levelUp()
+    @Override
+    public MessageCallback levelUp()
     {
+        //Before level up
+        int attackB = getAttack();
+        int defenceB = getDefense();
+        int healthB = health.getCurrent();
+
         super.levelUp();
         this.remainingCooldown =0;
         this.getHealth().setCurrent(getHealth().getCurrent() + (WARRIOR_ADDITIONAL_HEAITH * this.level));
         this.attack += WARRIOR_ADDITIONAL_ATTACK * this.level;
         this.defense += WARRIOR_ADDITIONAL_DEFENSE * this.level;
+
+        //Calculate diff
+        int attackDiff = getAttack() - attackB;
+        int defenceDiff = getDefense() - defenceB;
+        int healthDiff = health.getCurrent() - healthB;
+
+        return () -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
+                , getName(), getLevel(), healthDiff, attackDiff, defenceDiff);
     }
     //game tick
     public void gameTick(){
-        this.remainingCooldown--;
+        this.remainingCooldown= Math.max(remainingCooldown--,0);
     }
 
+    @Override
+    public MessageCallback useSA() {
+        StringBuilder output = new StringBuilder();
 
-     public void useSA(List<Enemy> enemies) {
+        if (remainingCooldown > 0){
+             output.append(getName()).append(String.format("tried to cast Avenger's Shield, but there is a cooldown: %s.\n", remainingCooldown));
+             return ()-> printer.print(output.toString());
+         }
          this.remainingCooldown = this.abilityCooldown;
          this.getHealth().setCurrent(Math.min(this.getHealth().getCurrent() + 10 * this.defense, this.getHealth().getCapacity()));
+        output.append(getName()).append(" cast Avenger's Shield\n");
 
-         List<Enemy> enemiesInRange = new ArrayList<>();
-         for (Enemy enemy : enemies) {
+         List<Enemy> enemies = board.enemiesInRange(3);
+        /* for (Enemy enemy : enemies) {
              if (this.position.range(enemy.getPosition()) < 3) {
                  enemiesInRange.add(enemy);
              }
-         }
-         if (!enemiesInRange.isEmpty()) {
-             int index = random.nextInt(enemiesInRange.size());
-             Enemy target = enemiesInRange.get(index);
+         }*/
+         if (!enemies.isEmpty()) {
+             int index = random.nextInt(enemies.size());
+             Enemy target = enemies.get(index);
              int damage = (int) (0.1 * this.getHealth().getCapacity());
              int actualDamage = Math.max(0, damage - target.defend());
              target.getHealth().setCurrent(target.getHealth().getCurrent() - actualDamage);
