@@ -1,14 +1,9 @@
 package model.tiles.units.players;
 
 import model.game.Board;
-import utils.Position;
-import model.tiles.Tile;
-import utils.Health;
 import model.tiles.units.enemies.Enemy;
-import model.tiles.units.players.Player;
 import utils.callbacks.MessageCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -18,7 +13,7 @@ public class Warrior extends Player {
     private final int WARRIOR_ADDITIONAL_HEAITH = 5;
     private final int WARRIOR_ADDITIONAL_ATTACK = 2;
     private final int WARRIOR_ADDITIONAL_DEFENSE = 1;
-    private final int abilityRange = 3;
+    private final int ABILITY_RANGE = 3;
 
     private int abilityCooldown;
     private int remainingCooldown;
@@ -42,7 +37,7 @@ public class Warrior extends Player {
         int healthB = health.getCurrent();
 
         super.levelUp();
-        this.remainingCooldown =0;
+        this.remainingCooldown = 0;
         this.getHealth().setCurrent(getHealth().getCurrent() + (WARRIOR_ADDITIONAL_HEAITH * this.level));
         this.attack += WARRIOR_ADDITIONAL_ATTACK * this.level;
         this.defense += WARRIOR_ADDITIONAL_DEFENSE * this.level;
@@ -65,23 +60,28 @@ public class Warrior extends Player {
         StringBuilder output = new StringBuilder();
 
         if (remainingCooldown > 0){
-             output.append(getName()).append(String.format("tried to cast Avenger's Shield, but there is a cooldown: %s.\n", remainingCooldown));
+             output.append(getName()).append(String.format(" tried to cast Avenger's Shield, but there is a cooldown: %s.\n", remainingCooldown));
              return ()-> printer.print(output.toString());
          }
-         this.remainingCooldown = this.abilityCooldown;
-         this.getHealth().setCurrent(Math.min(this.getHealth().getCurrent() + 10 * this.defense, this.getHealth().getCapacity()));
+
+        this.remainingCooldown = this.abilityCooldown;
+        this.getHealth().setCurrent(Math.min(this.getHealth().getCurrent() + (10 * this.defense) , this.getHealth().getCapacity()));
         output.append(getName()).append(" cast Avenger's Shield\n");
 
-         List<Enemy> enemies = board.enemiesInRange(abilityRange);
+         List<Enemy> enemies = board.enemiesInRange(ABILITY_RANGE);
 
          if (!enemies.isEmpty()) {
              int index = random.nextInt(enemies.size());
-             Enemy target = enemies.get(index);
-             int damage = (int) (0.1 * this.getHealth().getCapacity());
-             int actualDamage = Math.max(0, damage - target.defend());
-             target.getHealth().setCurrent(target.getHealth().getCurrent() - actualDamage);
-             // System.out.println("Enemy " + target.getName() + " took " + actualDamage + " damage.");
+             Enemy enemy = enemies.get(index);
+             int damage = this.getHealth().getCapacity() / 10;
+             int actualDamage = Math.max(0, damage - enemy.defend());
+             enemy.getHealth().setCurrent(enemy.getHealth().getCurrent() - actualDamage);
          }
+
+         else {
+             output.append(String.format("There is no enemy within %s range: %d.\n", getName(), ABILITY_RANGE));
+         }
+
         return ()-> printer.print(output.toString());
      }
     @Override
