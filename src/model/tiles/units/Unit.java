@@ -91,6 +91,10 @@ public abstract class Unit extends Tile {
 
     public String getName(){ return name;}
 
+    public int getAttack() {return attack;}
+
+    public int getDefense() {return defense;}
+
     public abstract void onDeath();
 
     public abstract String describe();

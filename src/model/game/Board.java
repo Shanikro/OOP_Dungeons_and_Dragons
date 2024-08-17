@@ -5,6 +5,7 @@ import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -39,5 +40,14 @@ public class Board {
             }
         }
         return sb.toString();
+    }
+
+    public List<Enemy> enemiesInRange(int abilityRange) {
+        List<Enemy> enemyList = new ArrayList<>();
+        for(Enemy e: enemies){
+            if(player.getPosition().range(e.getPosition()) < abilityRange)
+                enemyList.add(e);
+        }
+        return enemyList;
     }
 }

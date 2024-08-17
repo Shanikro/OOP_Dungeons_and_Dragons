@@ -29,7 +29,7 @@ public abstract class Player extends Unit {
         }
     }
 
-    public void levelUp(){
+    public MessageCallback levelUp(){
         this.experience -= levelRequirement();
         this.level++;
         int healthGain = healthGain();
@@ -39,6 +39,8 @@ public abstract class Player extends Unit {
         health.heal();
         attack += attackGain;
         defense += defenseGain;
+
+        return () -> {};
     }
 
     protected int levelRequirement(){
@@ -77,6 +79,7 @@ public abstract class Player extends Unit {
 
         //Enemy dead
         if (!e.isAlive()) {
+            addExperience(e.getExperienceValue());
             e.onDeath();
             output.append(String.format("%s died. %s gained %d experience\n", e.getName(), getName(), e.getExperienceValue()));
             e.swapPosition(this);
@@ -107,6 +110,10 @@ public abstract class Player extends Unit {
         gameTick();
         return action;
     }
+
+    public int getLevel() {return level;}
+
+    public int getExperience() {return experience;}
 
     public abstract void gameTick();
 
