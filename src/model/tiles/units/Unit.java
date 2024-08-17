@@ -4,10 +4,9 @@ import model.tiles.Empty;
 import model.tiles.Tile;
 import model.tiles.Wall;
 import model.tiles.units.enemies.Enemy;
-import model.tiles.units.players.Player;
+import model.tiles.units.players.*;
 import utils.Health;
 import utils.Position;
-import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
 import utils.generators.Generator;
 
@@ -18,7 +17,6 @@ public abstract class Unit extends Tile {
     protected int defense;
 
     protected Generator generator;
-    protected DeathCallback deathCallback;
     protected MessageCallback messageCallback;
 
     public Unit(char tile, String name, int hitPoints, int attack, int defense) {
@@ -29,12 +27,10 @@ public abstract class Unit extends Tile {
         this.defense = defense;
     }
 
-    public Unit initialize(Position p, Generator generator, DeathCallback deathCallback, MessageCallback messageCallback){
+    public void initialize(Position p, Generator generator, MessageCallback messageCallback){
         super.initialize(p);
         this.generator = generator;
-        this.deathCallback = deathCallback;
         this.messageCallback = messageCallback;
-        return this;
     }
 
     public int attack(){
@@ -45,36 +41,60 @@ public abstract class Unit extends Tile {
         return generator.generate(defense);
     }
 
-    public boolean alive(){
+    public boolean isAlive(){
         return health.getCurrent() > 0;
     }
 
-    public void battle(Unit enemy) {
+    public String battle(Unit other) {
+        StringBuilder output = new StringBuilder();
+
+        //Starting a Battle
+        output.append(String.format("%s engaged in combat with %s\n%s%s",
+                getName(), other.getName(),
+                describe(), other.describe()));
+
+        //Attack
         int attack = this.attack();
-        int defense = enemy.defend();
-        int damageTaken = enemy.health.takeDamage(attack - defense);
+        output.append(String.format("%s rolled %d attack points\n", getName(), attack));
+
+        //Defence
+        int defence = other.defend();
+        output.append(String.format("%s rolled %d defence points\n", other.getName(), defence));
+
+        //Damage
+        int damageTaken = attack - defence;
+        if (damageTaken > 0) {
+            int damageDealt = other.getHealth().takeDamage(damageTaken);
+            output.append(String.format("%s dealt %d damage to %s\n", getName(), damageDealt, other.getName()));
+        } else {
+            output.append(String.format("%s's attack was fully defended by %s\n", getName(), other.getName()));
+        }
+
+        return output.toString();
     }
 
-    public void interact(Tile t){
-        t.accept(this);
+    @Override
+    public MessageCallback visit(Empty empty)
+    {
+        swapPosition(empty);
+        return ()->{};
     }
 
-    public void visit(Empty e){
-        swapPosition(e);
-    }
-
-    public void visit(Wall w){
-        // Do nothing
-    }
-
-    public abstract void visit(Player p);
-    public abstract void visit(Enemy e);
-
-    public void onDeath(){
-        deathCallback.onDeath();
+    @Override
+    public MessageCallback visit(Wall wall)
+    {
+        return ()->{};
     }
 
     public Health getHealth(){ return health;}
+
+    public String getName(){ return name;}
+
+    public abstract void onDeath();
+
+    public abstract String describe();
+
+
 
 
 }

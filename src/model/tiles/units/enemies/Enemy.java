@@ -12,7 +12,7 @@ public abstract class Enemy extends Unit {
         this.experienceValue = experienceValue;
     }
 
-    public int experienceValue() {
+    public int getExperienceValue() {
         return experienceValue;
     }
 

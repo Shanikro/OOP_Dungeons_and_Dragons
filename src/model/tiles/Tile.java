@@ -2,10 +2,14 @@ package model.tiles;
 
 import model.tiles.units.Unit;
 import utils.Position;
+import utils.VisitorPatterns.Visited;
+import utils.VisitorPatterns.Visitor;
+import utils.printer.*;
 
-public abstract class Tile {
+public abstract class Tile implements Visitor , Visited {
     protected char tile;
     protected Position position;
+    protected static final Printer printer = PrinterC.getInstance();
 
     public Tile(char tile){
         this.tile = tile;
@@ -27,7 +31,6 @@ public abstract class Tile {
         return String.valueOf(tile);
     }
 
-    public abstract void accept(Unit unit);
 
     public Position getPosition() {
         return position;

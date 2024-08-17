@@ -1,7 +1,9 @@
 package model.tiles.units.players;
 
+import model.tiles.Tile;
 import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
+import utils.callbacks.MessageCallback;
 
 public abstract class Player extends Unit {
     public static final char PLAYER_TILE = '@';
@@ -55,24 +57,37 @@ public abstract class Player extends Unit {
     }
 
     @Override
-    public void accept(Unit unit) {
-        unit.visit(this);
+    public MessageCallback accept(Tile tile) {
+        return tile.visit(this);
     }
 
-    public void visit(Player p){
-        // Do nothing
+    @Override
+    public MessageCallback visit(Player p){
+        return ()->{};
     }
 
-    public void visit(Enemy e){
-        battle(e);
-        if(!e.alive()){
-            addExperience(e.experienceValue());
+    @Override
+    public MessageCallback visit(Enemy e){
+        StringBuilder output = new StringBuilder();
+
+        //Battle
+        String battleString = battle(e);
+        output.append(battleString);
+
+        //Enemy dead
+        if (!e.isAlive()) {
             e.onDeath();
+            output.append(String.format("%s died. %s gained %d experience\n", e.getName(), getName(), e.getExperienceValue()));
+            e.swapPosition(this);
         }
+
+        return () -> printer.print(output.toString());
     }
 
     @Override
     public void onDeath() {
-        //TODO: Implement onDeath
+        if(!isAlive())
+            tile='X';
     }
+
 }

@@ -11,7 +11,6 @@ import model.tiles.units.players.Player;
 import model.tiles.units.players.Warrior;
 import model.tiles.units.players.Rogue;
 import utils.Position;
-import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
 import utils.generators.Generator;
 

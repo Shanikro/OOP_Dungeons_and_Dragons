@@ -1,18 +1,11 @@
 package control.initializers;
 
-import model.tiles.Empty;
-import model.tiles.Tile;
-import model.tiles.Wall;
-import model.tiles.units.players.Player;
 import utils.Position;
-import utils.callbacks.DeathCallback;
-import utils.callbacks.MessageCallback;
 import utils.generators.FixedGenerator;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 public class LevelInitializer {
