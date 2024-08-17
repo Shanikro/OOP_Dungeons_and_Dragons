@@ -4,19 +4,19 @@ import java.io.PrintWriter;
 
 public class PrinterC implements Printer {
 
-    private PrintWriter msg;
-
     //Singleton
-    private static class PrinterHolder {
-        private static final PrinterC instance = new PrinterC();
-    }
+    private static PrinterC instance = null;
+    private PrintWriter msg;
 
     private PrinterC() {
         msg = new PrintWriter(new OutputStreamWriter(System.out));
     }
 
     public static PrinterC getInstance() {
-        return PrinterHolder.instance;
+        if (instance == null) {
+            instance = new PrinterC();
+        }
+        return instance;
     }
 
     @Override

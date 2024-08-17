@@ -1,9 +1,12 @@
 package model.game;
 
+import control.initializers.TileFactory;
 import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Position;
+import utils.printer.Printer;
+import utils.printer.PrinterC;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,8 @@ public class Board {
     private Player player;
     private List<Enemy> enemies;
     private final int width;
+    private final TileFactory factory = TileFactory.getInstance();
+    private final Printer printer = PrinterC.getInstance();
 
     public Board(List<Tile> tiles, Player p, List<Enemy> enemies, int width){
         this.player = p;
@@ -50,4 +55,12 @@ public class Board {
         }
         return enemyList;
     }
+
+    public void removeEnemy(Enemy enemy) {
+        enemies.remove(enemy);
+        Position p = enemy.getPosition();
+        board.put(p,factory.produceEmpty(p));
+
+    }
+
 }
