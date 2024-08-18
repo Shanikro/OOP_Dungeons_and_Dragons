@@ -10,21 +10,21 @@ public class Monster extends Enemy {
 
     private int visionRange;
 
-    public Monster(char tile, Board board, String name, int hitPoints, int attack, int defense, int experienceValue, int visionRange) {
-        super(tile, board, name, hitPoints, attack, defense, experienceValue);
+    public Monster(char tile, String name, int hitPoints, int attack, int defense, int experienceValue, int visionRange) {
+        super(tile, name, hitPoints, attack, defense, experienceValue);
         this.visionRange = visionRange;
     }
 
-    public MessageCallback takeTurn(Player player) {
+    public String monsterAction(Player player) {
 
         //The player is already dead
         if(!player.isAlive()) {
-            return () -> {};
+            return "";
         }
 
         //The player in range
         if (this.getPosition().range(player.getPosition()) < visionRange) {
-            Tile swapWith ;
+            String swapWith ;
             int dx = this.getPosition().getX() - player.getPosition().getX();
             int dy = this.getPosition().getY() - player.getPosition().getY();
 
@@ -41,7 +41,7 @@ public class Monster extends Enemy {
                     swapWith = down();
                 }
             }
-            return swapWith.accept(this);
+            return swapWith;
         }
 
         // Random movement or stay in place
@@ -50,24 +50,24 @@ public class Monster extends Enemy {
         }
     }
 
-    private Tile left() {
-        return board.getTile(this.getPosition().getX(), this.getPosition().getY() - 1);
+    private String left() {
+        return "d";
     }
 
-    private Tile right() {
-        return board.getTile(this.getPosition().getX(), this.getPosition().getY() + 1);
+    private String right() {
+        return "a";
     }
 
-    private Tile up() {
-        return board.getTile(this.getPosition().getX() - 1, this.getPosition().getY());
+    private String up() {
+        return "w";
     }
 
-    private Tile down() {
-        return board.getTile(this.getPosition().getX() + 1, this.getPosition().getY());
+    private String down() {
+        return "s";
     }
 
-    private MessageCallback randomMovement() {
-        Tile swapWith = null;
+    private String randomMovement() {
+        String swapWith = null;
         int move = this.generator.generate(5);
 
         switch (move) {
@@ -83,9 +83,9 @@ public class Monster extends Enemy {
                 // Stay in place
         }
         if (swapWith != null){
-            return swapWith.accept(this);
+            return swapWith;
         }
-        return ()->{};
+        return "";
     }
 
     @Override

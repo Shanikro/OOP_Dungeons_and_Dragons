@@ -10,8 +10,8 @@ import utils.callbacks.MessageCallback;
 public abstract class Enemy extends Unit {
     protected int experienceValue;
 
-    public Enemy(char tile, Board board, String name, int hitPoints, int attack, int defense, int experienceValue) {
-        super(tile, board, name, hitPoints, attack, defense);
+    public Enemy(char tile, String name, int hitPoints, int attack, int defense, int experienceValue) {
+        super(tile, name, hitPoints, attack, defense);
         this.experienceValue = experienceValue;
     }
 
@@ -46,10 +46,7 @@ public abstract class Enemy extends Unit {
     }
 
     @Override
-    public void onDeath()
-    {
-        if(!isAlive())
-            board.removeEnemy(this);
-    }
+    // Level responsibility
+    public void onDeath() {}
 
 }

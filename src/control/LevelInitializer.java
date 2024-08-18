@@ -1,21 +1,13 @@
-package control.initializers;
+package control;
 
 import utils.Position;
-import utils.generators.FixedGenerator;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 public class LevelInitializer {
-    private File directory;
-    private File currentFile;
-    private Iterator<File> directoryIterator;
-    private Scanner fileReader;
 
     private int playerID;
     private final TileFactory tileFactory = TileFactory.getInstance();
@@ -46,10 +38,10 @@ public class LevelInitializer {
                         tileFactory.produceWall(position);
                         break;
                     case '@':
-                        tileFactory.producePlayer(playerID,);
+                        tileFactory.producePlayer(playerID);
                         break;
                     default:
-                        tileFactory.produceEnemy(c, position, b, new FixedGenerator(),);
+                        tileFactory.produceEnemy(c, position);
                         break;
                 }
                 col++;
@@ -58,4 +50,4 @@ public class LevelInitializer {
         }
         }
     }
-}
+

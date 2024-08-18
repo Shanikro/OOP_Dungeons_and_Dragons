@@ -3,10 +3,12 @@ package model.game;
 import control.initializers.TileFactory;
 import utils.callbacks.MessageCallback;
 import utils.printer.PrinterC;
-
 import java.util.Scanner;
+import control.TileFactory;
+import utils.callbacks.MessageCallback;
 
 public class Game {
+
     private Level currentLevel;
     private String directoryPath;
     private final TileFactory factory = TileFactory.getInstance();
@@ -16,7 +18,6 @@ public class Game {
 
     public Game(String levels, MessageCallback callback){
             this.msg = callback;
-            
             this.currentLevel = new Level(msg);
             this.directoryPath = levels;
             this.printer = new PrinterC();
@@ -68,4 +69,3 @@ public class Game {
 }
 
     }
-}

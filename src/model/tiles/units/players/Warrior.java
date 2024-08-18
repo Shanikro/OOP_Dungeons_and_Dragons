@@ -19,9 +19,9 @@ public class Warrior extends Player {
     private int remainingCooldown;
     private Random random;
 
-    public Warrior(String name , Board board, int attackPoints, int defensePoints, int health, int abilityCooldown)
+    public Warrior(String name, int attackPoints, int defensePoints, int health, int abilityCooldown)
     {
-        super(name,board,health,attackPoints,defensePoints);
+        super(name ,health,attackPoints,defensePoints);
 
         this.abilityCooldown = abilityCooldown;
         this.remainingCooldown = 0;
@@ -56,7 +56,7 @@ public class Warrior extends Player {
     }
 
     @Override
-    public MessageCallback useSA() {
+    public MessageCallback useSA(List<Enemy> enemies) {
         StringBuilder output = new StringBuilder();
 
         if (remainingCooldown > 0){
@@ -67,8 +67,6 @@ public class Warrior extends Player {
         this.remainingCooldown = this.abilityCooldown;
         this.getHealth().setCurrent(Math.min(this.getHealth().getCurrent() + (10 * this.defense) , this.getHealth().getCapacity()));
         output.append(getName()).append(" cast Avenger's Shield\n");
-
-         List<Enemy> enemies = board.enemiesInRange(ABILITY_RANGE);
 
          if (!enemies.isEmpty()) {
              int index = random.nextInt(enemies.size());
@@ -94,6 +92,12 @@ public class Warrior extends Player {
                 name, health.getCurrent(), health.getCapacity(), getAttack(), getDefense(), getLevel(), getExperience(), levelRequirement(), remainingCooldown, abilityCooldown);
 
     }
+
+    @Override
+    public int getSARange(){
+        return ABILITY_RANGE;
+    }
+
 }
 
 
