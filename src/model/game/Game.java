@@ -15,8 +15,6 @@ public class Game {
     private Level currentLevel;
     private String levelPath;
     private final TileFactory factory = TileFactory.getInstance();
-    private final PrinterC printer = PrinterC.getInstance();
-
 
     public Game(String levelPath,MessageCallback callback){
         this.msg = callback ;

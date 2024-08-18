@@ -1,7 +1,5 @@
 package model.tiles;
 
-import model.game.Board;
-import model.tiles.units.Unit;
 import utils.Position;
 import utils.VisitorPatterns.Visited;
 import utils.VisitorPatterns.Visitor;
