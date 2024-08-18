@@ -23,8 +23,8 @@ public class Mage  extends Player{
     private Random random;
 
 
-    public Mage(String name, Board board, int health, int attack, int defense, int manaCap, int manaCost, int spellPower, int hitsCount, int abilityRange) {
-        super(name, board, health, attack, defense);
+    public Mage(String name, int health, int attack, int defense, int manaCap, int manaCost, int spellPower, int hitsCount, int abilityRange) {
+        super(name, health, attack, defense);
         this.manaCap = manaCap;
         this.manaCurr = manaCap/4;
         this.manaCost = manaCost;
@@ -67,7 +67,7 @@ public class Mage  extends Player{
 
     @Override
     //use special ability
-    public MessageCallback useSA(){
+    public MessageCallback useSA(List<Enemy> enemies){
         StringBuilder output = new StringBuilder();
 
         if (manaCurr < manaCost){
@@ -77,7 +77,6 @@ public class Mage  extends Player{
 
         this.manaCurr -= this.manaCost ;
         int hits = 0;
-        List<Enemy> enemies = board.enemiesInRange(abilityRange);
 
         output.append(getName()).append(" cast Blizzard\n");
 
@@ -133,5 +132,11 @@ public class Mage  extends Player{
                 name, health.getCapacity(), health.getCurrent(), getAttack(), getDefense(), getLevel(), getExperience(), levelRequirement(), manaCap, manaCurr, manaCost, spellPower, hitsCount, abilityRange);
 
     }
+
+    @Override
+    public int getSARange(){
+        return abilityRange;
+    }
+
 
 }

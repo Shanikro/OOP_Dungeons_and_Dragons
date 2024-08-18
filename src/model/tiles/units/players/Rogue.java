@@ -14,8 +14,8 @@ public class Rogue extends Player{
     private int cost;
     private int currEnergy;
 
-    public Rogue(String name, Board board, int health, int attack, int defense, int cost){
-        super(name,board, health, attack, defense);
+    public Rogue(String name, int health, int attack, int defense, int cost){
+        super(name, health, attack, defense);
         this.cost = cost;
         this.currEnergy = MAX_ENERGY;
     }
@@ -48,7 +48,7 @@ public class Rogue extends Player{
 
     @Override
     //use special ability
-    public MessageCallback useSA() {
+    public MessageCallback useSA(List<Enemy> enemies) {
         StringBuilder output = new StringBuilder();
 
         if (currEnergy < cost) {
@@ -57,7 +57,6 @@ public class Rogue extends Player{
         }
 
         this.currEnergy -= this.cost;
-        List<Enemy> enemies = board.enemiesInRange(ABILITY_RANGE);
 
         output.append(getName()).append(" cast Fan Of Knives.\n");
 
@@ -86,6 +85,11 @@ public class Rogue extends Player{
                 name, health.getCurrent(), health.getCapacity(), getAttack(), getDefense(), getLevel(), getExperience(),
                 levelRequirement(), cost, currEnergy);
 
+    }
+
+    @Override
+    public int getSARange(){
+        return ABILITY_RANGE;
     }
 
 }

@@ -6,6 +6,8 @@ import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
 import utils.callbacks.MessageCallback;
 
+import java.util.List;
+
 public abstract class Player extends Unit {
     public static final char PLAYER_TILE = '@';
     protected static final int LEVEL_REQUIREMENT = 50;
@@ -80,7 +82,6 @@ public abstract class Player extends Unit {
         //Enemy dead
         if (!e.isAlive()) {
             addExperience(e.getExperienceValue());
-            e.onDeath();
             output.append(String.format("%s died. %s gained %d experience\n", e.getName(), getName(), e.getExperienceValue()));
             e.swapPosition(this);
         }
@@ -100,7 +101,9 @@ public abstract class Player extends Unit {
 
     public abstract void gameTick();
 
-    protected abstract MessageCallback useSA();
+    public abstract MessageCallback useSA(List<Enemy> enemies);
+
+    public abstract int getSARange();
 
 
 }
