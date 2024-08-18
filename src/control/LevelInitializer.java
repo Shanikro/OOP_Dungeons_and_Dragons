@@ -9,15 +9,9 @@ import java.util.List;
 
 public class LevelInitializer {
 
-    private int playerID;
     private final TileFactory tileFactory = TileFactory.getInstance();
 
-
-    public LevelInitializer(int playerID){
-        this.playerID = playerID;
-    }
-
-    public void initLevel(String levelPath){
+    public LevelInitializer(String levelPath){
         List<String> lines;
         try {
             lines = Files.readAllLines(Paths.get(levelPath));
@@ -38,7 +32,7 @@ public class LevelInitializer {
                         tileFactory.produceWall(position);
                         break;
                     case '@':
-                        tileFactory.producePlayer(playerID);
+                        tileFactory.getPlayer();
                         break;
                     default:
                         tileFactory.produceEnemy(c, position);

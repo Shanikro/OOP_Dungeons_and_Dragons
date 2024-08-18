@@ -8,17 +8,23 @@ import view.CLI;
 import view.View;
 
 public class Main {
-    public static void main(String[] args) {
-        View cliView = new CLI();
-        MessageCallback callback = cliView.getCallback();
 
-        String levelDirPath;
+    public static void main(String[] args) {
+
+        args = new String[1];
+
+        args[0] = "C:\\Users\\USER\\Dragons\\levels_dir";
+
+        View cliV = new CLI();
+        MessageCallback callback = cliV.getCallback();
 
         if(args.length > 0){
-            levelDirPath = args[0];
-            Game game = new Game(levelDirPath, callback);
-            game.start();
+            Game game = new Game(args[0],callback);
+            //game.start();
         }
-        System.out.println("Hello world!");
+
+        else{
+            cliV.display("Level dir illegal!");
+        }
     }
 }

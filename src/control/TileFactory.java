@@ -11,7 +11,6 @@ import model.tiles.units.players.Player;
 import model.tiles.units.players.Warrior;
 import model.tiles.units.players.Rogue;
 import utils.Position;
-import utils.callbacks.MessageCallback;
 import utils.printer.Printer;
 import utils.printer.PrinterC;
 
@@ -66,12 +65,12 @@ public class TileFactory {
     }
 
     public Player producePlayer(int playerID) {
-        Supplier<Player> supp = playerTypes.get(playerID - 1);
+        Supplier<Player> supp = playerTypes.get(playerID);
         this.p = supp.get();
         return this.p;
     }
 
-    public Player producePlayer() {
+    public Player getPlayer() {
         return this.p;
     }
 
@@ -93,8 +92,11 @@ public class TileFactory {
     public void printPlayers() { // Call back for the start of the game
         StringBuilder output = new StringBuilder();
 
+        int i = 1;
         for (Supplier<Player> playerSupplier : playerTypes.values()) {
+            output.append(i).append("- ");
             output.append(playerSupplier.get().describe()).append(" \n");
+            i++;
         }
             printer.print(output.toString());
     }

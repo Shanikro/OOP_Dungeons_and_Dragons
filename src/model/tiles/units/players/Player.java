@@ -42,7 +42,7 @@ public abstract class Player extends Unit {
         attack += attackGain;
         defense += defenseGain;
 
-        return () -> {};
+        return (s) -> {};
     }
 
     protected int levelRequirement(){
@@ -68,7 +68,7 @@ public abstract class Player extends Unit {
 
     @Override
     public MessageCallback visit(Player p){
-        return ()->{};
+        return (s)->{};
     }
 
     @Override
@@ -86,7 +86,7 @@ public abstract class Player extends Unit {
             e.swapPosition(this);
         }
 
-        return () -> printer.print(output.toString());
+        return (s) -> printer.print(output.toString());
     }
 
     @Override

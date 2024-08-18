@@ -14,22 +14,22 @@ public class Empty extends Tile {
 
     @Override
     public MessageCallback visit(Empty empty) {
-        return ()->{};
+        return (s)->{};
     }
 
     @Override
     public MessageCallback visit(Wall wall) {
-        return ()->{};
+        return (s)->{};
     }
 
     @Override
     public MessageCallback visit(Player player) {
-        return ()->{};
+        return (s)->{};
     }
 
     @Override
     public MessageCallback visit(Enemy enemy) {
-        return ()->{};
+        return (s)->{};
     }
 
     @Override

@@ -78,13 +78,13 @@ public abstract class Unit extends Tile {
     public MessageCallback visit(Empty empty)
     {
         swapPosition(empty);
-        return ()->{};
+        return (s)->{};
     }
 
     @Override
     public MessageCallback visit(Wall wall)
     {
-        return ()->{};
+        return (s)->{};
     }
 
     public Health getHealth(){ return health;}

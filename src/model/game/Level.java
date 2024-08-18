@@ -2,31 +2,37 @@ package model.game;
 
 import control.TileFactory;
 import model.tiles.units.enemies.Enemy;
-import model.tiles.units.players.Player;
 import utils.callbacks.MessageCallback;
 import utils.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Level {
     private Board board;
-    private Player player;
     private List<Enemy> enemies;
-    private final TileFactory factory = TileFactory.getInstance();
     private MessageCallback msg;
+    private final TileFactory factory = TileFactory.getInstance();
+
+
+    public Level(String levelPath,MessageCallback callback) {
+        this.enemies = new LinkedList<>();
+        //this.buildLevel = new LevelInitializer(path);
+    }
+
 
     public MessageCallback action(String input)
     {
         MessageCallback action;
         switch (input)
         {
-            case "w" -> action = board.getTile(player.getPosition().getX()- 1,player.getPosition().getY()).accept(player);
-            case "s" -> action = board.getTile(player.getPosition().getX()+1,player.getPosition().getY()).accept(player);
-            case "a" -> action = board.getTile(player.getPosition().getX(),player.getPosition().getY()-1).accept(player);
-            case "d" -> action = board.getTile(player.getPosition().getX(), player.getPosition().getY() + 1).accept(player);
-            case "e" -> action = player.useSA(board.enemiesInRange(player.getSARange())); //Special Ability
+            case "w" -> action = board.getTile(factory.getPlayer().getPosition().getX()- 1,factory.getPlayer().getPosition().getY()).accept(factory.getPlayer());
+            case "s" -> action = board.getTile(factory.getPlayer().getPosition().getX()+1,factory.getPlayer().getPosition().getY()).accept(factory.getPlayer());
+            case "a" -> action = board.getTile(factory.getPlayer().getPosition().getX(),factory.getPlayer().getPosition().getY()-1).accept(factory.getPlayer());
+            case "d" -> action = board.getTile(factory.getPlayer().getPosition().getX(), factory.getPlayer().getPosition().getY() + 1).accept(factory.getPlayer());
+            case "e" -> action = factory.getPlayer().useSA(board.enemiesInRange(factory.getPlayer().getSARange())); //Special Ability
 
-            default -> action = () -> {};
+            default -> action = (s) -> {};
         };
         gameTick();
         return action;

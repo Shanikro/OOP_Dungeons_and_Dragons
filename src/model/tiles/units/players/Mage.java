@@ -56,7 +56,7 @@ public class Mage  extends Player{
         int manaDiff =  manaCap - manaB;
         int spellDiff = spellPower - spellB;
 
-        return () -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d maximum mana, +%d spell power\n"
+        return (s) -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d maximum mana, +%d spell power\n"
                 , getName(), getLevel(), healthDiff, attackDiff, defenceDiff, manaDiff, spellDiff);
     }
 
@@ -72,7 +72,7 @@ public class Mage  extends Player{
 
         if (manaCurr < manaCost){
             output.append(getName()).append(String.format(" tried to cast Blizzard, but there was'nt enougt mana: %s.\n", manaCurr));
-            return ()-> printer.print(output.toString());
+            return (s)-> printer.print(output.toString());
         }
 
         this.manaCurr -= this.manaCost ;
@@ -93,7 +93,7 @@ public class Mage  extends Player{
             }
         }
 
-        return ()-> printer.print(output.toString());
+        return (s)-> printer.print(output.toString());
     }
 
     private boolean hasLivingEnemyInRange(List<Enemy> enemies) {

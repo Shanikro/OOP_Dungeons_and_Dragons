@@ -47,7 +47,7 @@ public class Warrior extends Player {
         int defenceDiff = getDefense() - defenceB;
         int healthDiff = health.getCurrent() - healthB;
 
-        return () -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
+        return (s) -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
                 , getName(), getLevel(), healthDiff, attackDiff, defenceDiff);
     }
     //game tick
@@ -61,7 +61,7 @@ public class Warrior extends Player {
 
         if (remainingCooldown > 0){
              output.append(getName()).append(String.format(" tried to cast Avenger's Shield, but there is a cooldown: %s.\n", remainingCooldown));
-             return ()-> printer.print(output.toString());
+             return (s)-> printer.print(output.toString());
          }
 
         this.remainingCooldown = this.abilityCooldown;
@@ -80,7 +80,7 @@ public class Warrior extends Player {
              output.append(String.format("There is no enemy within %s range: %d.\n", getName(), ABILITY_RANGE));
          }
 
-        return ()-> printer.print(output.toString());
+        return (s)-> printer.print(output.toString());
      }
     @Override
     public String describe()

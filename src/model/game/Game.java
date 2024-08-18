@@ -1,6 +1,7 @@
 package model.game;
 
-import control.initializers.TileFactory;
+import control.TileFactory;
+import model.tiles.units.players.Player;
 import utils.callbacks.MessageCallback;
 import utils.printer.PrinterC;
 import java.util.Scanner;
@@ -9,40 +10,37 @@ import utils.callbacks.MessageCallback;
 
 public class Game {
 
-    private Level currentLevel;
-    private String directoryPath;
-    private final TileFactory factory = TileFactory.getInstance();
     private MessageCallback msg;
-    private PrinterC printer;
+    private Player player;
+    private Level currentLevel;
+    private String levelPath;
+    private final TileFactory factory = TileFactory.getInstance();
+    private final PrinterC printer = PrinterC.getInstance();
 
 
-    public Game(String levels, MessageCallback callback){
-            this.msg = callback;
-            this.currentLevel = new Level(msg);
-            this.directoryPath = levels;
-            this.printer = new PrinterC();
-            ()-> printer.print("notice you must put the level_dir folder");
-            msg.send("you put it? enter 0 for continue");
-            Scanner scanner = new Scanner(System.in);
-            int validfolder = scanner.nextInt();
-            if (validfolder == 0) {
-                factory.printPlayers();
-                msg.send("Choose your player from the list");
-                int playerChosen = scanner.nextInt();
-                while(playerChosen < 1 || playerChosen > 6) {
-                    msg.send("Invalid player chosen");
-                    playerChosen = scanner.nextInt();
-                }
-                currentLevel.choosePlayer(tileFactory.getPlayer(playerChosen));
-            }
-            else{
-                msg.send("reload the game");
-            }
+    public Game(String levelPath,MessageCallback callback){
+        this.msg = callback ;
+        this.currentLevel = new Level(levelPath,callback);
+        this.levelPath = levelPath;
 
+        Scanner scanner = new Scanner(System.in);
+        msg.send("Select player:\n");
+        factory.printPlayers();
 
+        int playerChosen = scanner.nextInt();
+        while(playerChosen < 1 || playerChosen > 6) {
+            msg.send("Select player:\n");
+            factory.printPlayers();
+            playerChosen = scanner.nextInt();
         }
 
-    public void start(){
+            setPlayer(factory.producePlayer(playerChosen));
+            msg.send("\nYou have selected: " + player.getName() + "\n");
+        }
+
+
+
+    /*public void start(){
         Scanner scanner = new Scanner(System.in);
         int levelNumber = 1;
 
@@ -62,10 +60,9 @@ public class Game {
 
         msg.send("\n GAME OVER!!!");
     }
-
-    public void EmptyRow() {
-        msg.send("");
+    */
+    private void setPlayer(Player player) {
+        this.player = player;
     }
 }
 
-    }

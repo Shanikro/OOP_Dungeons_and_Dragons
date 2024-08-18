@@ -33,7 +33,7 @@ public class Trap extends Enemy {
         if (player.getPosition().range(this.getPosition()) < RANGE) {
             return this.visit(player);
         } else {
-            return () -> {};
+            return (s) -> {};
         }
     }
 

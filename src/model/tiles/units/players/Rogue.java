@@ -37,7 +37,7 @@ public class Rogue extends Player{
         int defenceDiff = getDefense() - defenceB;
         int healthDiff = health.getCurrent() - healthB;
 
-        return () -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
+        return (s) -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
                 , getName(), getLevel(), healthDiff, attackDiff, defenceDiff);
     }
 
@@ -53,7 +53,7 @@ public class Rogue extends Player{
 
         if (currEnergy < cost) {
             output.append(getName()).append(String.format(" tried to cast Fan Of Knives, but there was'nt enougt energy: %s.\n", currEnergy));
-            return () -> printer.print(output.toString());
+            return (s) -> printer.print(output.toString());
         }
 
         this.currEnergy -= this.cost;
@@ -72,7 +72,7 @@ public class Rogue extends Player{
             output.append(String.format("There is no enemy within %s range: %d.\n", getName(), ABILITY_RANGE));
         }
 
-        return ()-> printer.print(output.toString());
+        return (s)-> printer.print(output.toString());
     }
 
     @Override

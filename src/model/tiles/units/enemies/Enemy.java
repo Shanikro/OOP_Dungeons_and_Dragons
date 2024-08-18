@@ -27,7 +27,7 @@ public abstract class Enemy extends Unit {
     @Override
     public MessageCallback visit(Enemy enemy)
     {
-        return ()->{};
+        return (s)->{};
     }
 
     @Override
@@ -41,7 +41,7 @@ public abstract class Enemy extends Unit {
             output.append(String.format("%s was killed by %s\nYou lost.\n", p.getName(), getName()));
         }
 
-        return ()->printer.print(output.toString());
+        return (s)->printer.print(output.toString());
 
     }
 
