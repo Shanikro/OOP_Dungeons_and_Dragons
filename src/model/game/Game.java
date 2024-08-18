@@ -52,7 +52,7 @@ public class Game {
         while (!currentLevel.gameOver() && levelNumber < levelsAmount) {
 
             while (!currentLevel.gameOver() && !currentLevel.isOver()) {
-                currentLevel.getBoard().toString();
+                msg.send(currentLevel.getBoard().toString());
                 String action = scanner.nextLine();
                 currentLevel.gameTick(action);
             }

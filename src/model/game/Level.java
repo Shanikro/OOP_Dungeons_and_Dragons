@@ -59,10 +59,12 @@ public class Level {
 
     public boolean gameOver() {
         //TODO
+        return false;
     }
 
     public boolean isOver() {
         //TODO
+        return false;
     }
 
     public Board getBoard() {

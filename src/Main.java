@@ -20,7 +20,7 @@ public class Main {
 
         if(args.length > 0){
             Game game = new Game(args[0],callback);
-            //game.start();
+            game.start();
         }
 
         else{
