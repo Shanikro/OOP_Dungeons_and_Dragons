@@ -5,6 +5,7 @@ import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Position;
+import utils.callbacks.MessageCallback;
 import utils.printer.Printer;
 import utils.printer.PrinterC;
 

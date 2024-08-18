@@ -10,12 +10,10 @@ import utils.printer.*;
 public abstract class Tile implements Visitor , Visited {
     protected char tile;
     protected Position position;
-    protected Board board;
     protected static final Printer printer = PrinterC.getInstance();
 
-    public Tile(char tile,Board board){
+    public Tile(char tile){
         this.tile = tile;
-        this.board = board;
     }
 
     public Tile initialize(Position p){

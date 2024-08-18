@@ -16,8 +16,8 @@ public abstract class Player extends Unit {
     protected int level;
     protected int experience;
 
-    public Player(String name, Board board, int hitPoints, int attack, int defense) {
-        super(PLAYER_TILE,board, name, hitPoints, attack, defense);
+    public Player(String name, int hitPoints, int attack, int defense) {
+        super(PLAYER_TILE, name, hitPoints, attack, defense);
         this.level = 1;
         this.experience = 0;
     }
@@ -92,23 +92,6 @@ public abstract class Player extends Unit {
     public void onDeath() {
         if(!isAlive())
             tile='X';
-    }
-
-    public MessageCallback action(String input)
-    {
-        MessageCallback action;
-        switch (input)
-        {
-            case "w" -> action = board.getTile(position.getX()- 1,position.getY()).accept(this);
-            case "s" -> action = board.getTile(position.getX()+1,position.getY()).accept(this);
-            case "a" -> action = board.getTile(position.getX(),position.getY()-1).accept(this);
-            case "d" -> action = board.getTile(position.getX(), position.getY() + 1).accept(this);
-            case "e" -> action = useSA(); //Special Ability
-
-            default -> action = () -> {};
-        };
-        gameTick();
-        return action;
     }
 
     public int getLevel() {return level;}
