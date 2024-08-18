@@ -70,7 +70,8 @@ public class TileFactory {
         return this.p;
     }
 
-    public Player getPlayer() {
+    public Player producePlayer(Position position) {
+        this.p.initialize(position);
         return this.p;
     }
 
@@ -101,4 +102,7 @@ public class TileFactory {
             printer.print(output.toString());
     }
 
+    public Player getPlayer() {
+        return this.p;
+    }
 }

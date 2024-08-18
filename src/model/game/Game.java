@@ -1,5 +1,6 @@
 package model.game;
 
+import control.LevelInitializer;
 import control.TileFactory;
 import model.tiles.units.players.Player;
 import utils.callbacks.MessageCallback;
@@ -13,13 +14,15 @@ public class Game {
     private MessageCallback msg;
     private Player player;
     private Level currentLevel;
+    private int levelNum;
     private String levelPath;
     private final TileFactory factory = TileFactory.getInstance();
 
     public Game(String levelPath,MessageCallback callback){
         this.msg = callback ;
-        this.currentLevel = new Level(levelPath,callback);
         this.levelPath = levelPath;
+        this.levelNum = 1;
+        this.currentLevel = new Level(levelNum,msg,new LevelInitializer(levelPath));
 
         Scanner scanner = new Scanner(System.in);
         msg.send("Select player:\n");

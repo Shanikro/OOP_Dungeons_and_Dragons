@@ -1,23 +1,35 @@
 package model.game;
 
+import control.LevelInitializer;
 import control.TileFactory;
+import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import utils.callbacks.MessageCallback;
 import utils.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Level {
+
+    private LevelInitializer levelBuilder;
+    private MessageCallback msg;
     private Board board;
     private List<Enemy> enemies;
-    private MessageCallback msg;
     private final TileFactory factory = TileFactory.getInstance();
 
 
-    public Level(String levelPath,MessageCallback callback) {
-        this.enemies = new LinkedList<>();
-        //this.buildLevel = new LevelInitializer(path);
+    public Level(int currentLevel,MessageCallback callback,LevelInitializer levelBuilder) {
+
+        this.levelBuilder = levelBuilder;
+        this.msg = callback;
+        this.enemies = levelBuilder.getEnemeis();
+
+        List<Tile> tileList = levelBuilder.initLevel(currentLevel);
+
+        board = new Board(tileList,enemies,);
+
     }
 
 
