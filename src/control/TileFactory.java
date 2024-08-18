@@ -1,4 +1,4 @@
-package control.initializers;
+package control;
 
 import model.tiles.Empty;
 import model.tiles.Tile;
@@ -11,19 +11,31 @@ import model.tiles.units.players.Player;
 import model.tiles.units.players.Warrior;
 import model.tiles.units.players.Rogue;
 import utils.Position;
-import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
-import utils.generators.Generator;
+import utils.printer.Printer;
+import utils.printer.PrinterC;
 
 import java.util.*;
 import java.util.function.Supplier;
 
 public class TileFactory {
+    //Singleton
+    private static TileFactory instance = null;
+
     private Player p;
     private Map<Integer, Supplier<Player>> playerTypes;
     private Map<Character, Supplier<Enemy>> enemiesTypes;
 
-    public TileFactory() {
+    private static final Printer printer = PrinterC.getInstance();
+
+    public static TileFactory getInstance() {
+        if (instance == null) {
+            instance = new TileFactory();
+        }
+        return instance;
+    }
+
+    private TileFactory() {
 
         //Players
         playerTypes = new TreeMap<>();
@@ -53,27 +65,38 @@ public class TileFactory {
 
     }
 
-    public Player producePlayer(int playerID){
-        Supplier<Player> supp = playerTypes.get(playerID-1);
+    public Player producePlayer(int playerID) {
+        Supplier<Player> supp = playerTypes.get(playerID - 1);
         this.p = supp.get();
         return this.p;
     }
 
-    public Player producePlayer(){
+    public Player producePlayer() {
         return this.p;
     }
 
-    public Enemy produceEnemy(char tile, Position p, DeathCallback c, Generator g, MessageCallback m){
+    public Enemy produceEnemy(char tile, Position p) {
         Enemy e = enemiesTypes.get(tile).get();
-        e.initialize(p, g, c, m);
+        e.initialize(p);
         return e;
     }
 
-    public Tile produceEmpty(Position p){
+    public Tile produceEmpty(Position p) {
         return new Empty().initialize(p);
     }
 
-    public Tile produceWall(Position p){
+    public Tile produceWall(Position p) {
         return new Wall().initialize(p);
     }
+
+
+    public void printPlayers() { // Call back for the start of the game
+        StringBuilder output = new StringBuilder();
+
+        for (Supplier<Player> playerSupplier : playerTypes.values()) {
+            output.append(playerSupplier.get().describe()).append(" \n");
+        }
+            printer.print(output.toString());
+    }
+
 }

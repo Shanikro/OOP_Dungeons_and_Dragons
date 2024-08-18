@@ -1,7 +1,10 @@
 package model.tiles.units.enemies;
 
+import model.game.Board;
+import model.tiles.Tile;
 import model.tiles.units.players.Player;
 import utils.Position;
+import utils.callbacks.MessageCallback;
 
 public class Monster extends Enemy {
 
@@ -12,60 +15,87 @@ public class Monster extends Enemy {
         this.visionRange = visionRange;
     }
 
-    public void takeTurn(Player player) {
+    public String monsterAction(Player player) {
 
+        //The player is already dead
+        if(!player.isAlive()) {
+            return "";
+        }
+
+        //The player in range
         if (this.getPosition().range(player.getPosition()) < visionRange) {
+            String swapWith ;
             int dx = this.getPosition().getX() - player.getPosition().getX();
             int dy = this.getPosition().getY() - player.getPosition().getY();
 
             if (Math.abs(dx) > Math.abs(dy)) {
                 if (dx > 0) {
-                    moveLeft();
+                    swapWith = left();
                 } else {
-                    moveRight();
+                    swapWith = right();
                 }
             } else {
                 if (dy > 0) {
-                    moveUp();
+                    swapWith = up();
                 } else {
-                    moveDown();
+                    swapWith = down();
                 }
             }
+            return swapWith;
         }
+
+        // Random movement or stay in place
         else {
-            // Random movement or stay in place
-           randomMovement();
+           return randomMovement();
         }
     }
 
-    private void moveLeft() { this.getPosition().setX(getPosition().getX()-1);}
+    private String left() {
+        return "d";
+    }
 
-    private void moveRight() { this.getPosition().setX(getPosition().getX()+1);}
+    private String right() {
+        return "a";
+    }
 
-    private void moveUp() { this.getPosition().setY(getPosition().getY()-1);}
+    private String up() {
+        return "w";
+    }
 
-    private void moveDown() { this.getPosition().setY(getPosition().getY()+1);}
+    private String down() {
+        return "s";
+    }
 
-    private void randomMovement() {
+    private String randomMovement() {
+        String swapWith = null;
         int move = this.generator.generate(5);
 
         switch (move) {
             case 0:
-                moveLeft();
-                break;
+                swapWith = left();
             case 1:
-                moveRight();
-                break;
+                swapWith = right();
             case 2:
-                moveUp();
-                break;
+                swapWith = up();
             case 3:
-                moveDown();
-                break;
+                swapWith = down();
             case 4:
                 // Stay in place
-                break;
         }
+        if (swapWith != null){
+            return swapWith;
+        }
+        return "";
+    }
+
+    @Override
+    public String describe()
+    {
+        return String.format("""
+                        %s\t\t\tHealth: %d/%d\t\t\tAttack: %d\t\t\tDefense: %d\t\t\tExperience: %d
+                        \t\t\tVisionRange: %d
+                        """,
+                name, health.getCurrent(), health.getCapacity(), getAttack(), getDefense(), experienceValue ,visionRange);
     }
 }
 

@@ -1,6 +1,8 @@
 package model.tiles.units.players;
 
+import model.game.Board;
 import model.tiles.units.enemies.Enemy;
+import utils.callbacks.MessageCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +34,30 @@ public class Mage  extends Player{
         this.random = new Random();
     }
 
-    public void levelUp(){
+    @Override
+    public MessageCallback levelUp(){
+
+        //Before level up
+        int attackB = getAttack();
+        int defenceB = getDefense();
+        int healthB = health.getCurrent();
+        int manaB = manaCap;
+        int spellB = spellPower;
+
         super.levelUp();
         this.manaCap += MAGE_ADDITIONAL_MANA_CAP * this.level;
         this.manaCurr = Math.min( this.manaCurr + (manaCap/4), manaCap);
         this.spellPower += WARRIOR_ADDITIONAL_SPELL_POWER * this.level;
+
+        //Calculate diff
+        int attackDiff = getAttack() - attackB;
+        int defenceDiff = getDefense() - defenceB;
+        int healthDiff = health.getCurrent() - healthB;
+        int manaDiff =  manaCap - manaB;
+        int spellDiff = spellPower - spellB;
+
+        return () -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d maximum mana, +%d spell power\n"
+                , getName(), getLevel(), healthDiff, attackDiff, defenceDiff, manaDiff, spellDiff);
     }
 
     //game tick
@@ -44,22 +65,37 @@ public class Mage  extends Player{
         this.manaCurr = Math.min( this.manaCap, this.manaCurr + this.level);
     }
 
+    @Override
     //use special ability
-    public void useSA(List<Enemy> enemies){
+    public MessageCallback useSA(List<Enemy> enemies){
+        StringBuilder output = new StringBuilder();
+
+        if (manaCurr < manaCost){
+            output.append(getName()).append(String.format(" tried to cast Blizzard, but there was'nt enougt mana: %s.\n", manaCurr));
+            return ()-> printer.print(output.toString());
+        }
+
         this.manaCurr -= this.manaCost ;
         int hits = 0;
+
+        output.append(getName()).append(" cast Blizzard\n");
+
         while (hits < hitsCount && hasLivingEnemyInRange(enemies)) {
             Enemy enemy = selectRandomEnemyInRange(enemies);
             if (enemy != null) {
                 int damage = this.spellPower;
                 int actualDamage = Math.max(0, damage - enemy.defend());
                 enemy.getHealth().setCurrent(enemy.getHealth().getCurrent() - actualDamage);
-               // System.out.println("Enemy " + enemy.getName() + " took " + actualDamage + " damage.");
                 hits++;
+            }
+            else{
+                output.append(String.format("There is no enemy within %s range: %d.\n", getName(), abilityRange));
             }
         }
 
+        return ()-> printer.print(output.toString());
     }
+
     private boolean hasLivingEnemyInRange(List<Enemy> enemies) {
         for (Enemy enemy : enemies) {
             if (enemy.getHealth().getCurrent() > 0 && this.position.range(enemy.getPosition()) < this.abilityRange) {
@@ -84,4 +120,23 @@ public class Mage  extends Player{
         int index = random.nextInt(enemiesInRange.size());
         return enemiesInRange.get(index);
     }
+
+    @Override
+    public String describe()
+    {
+        return String.format("""
+                        %s\t\t\tHealth: %d/%d\t\t\tAttackPoints: %d\t\t\tDefensePoints: %d\t\t\tLevel: %d
+                        \t\t\tExperience: %d/%d\t\t\tManaPool: %d\t\t\tCurrentMana: %d\t\t\tManaCost: %d
+                        \t\t\tSpellPower: %d\t\t\tHitsCount: %d\t\t\tAbilityRange: %d
+                        """,
+                name, health.getCapacity(), health.getCurrent(), getAttack(), getDefense(), getLevel(), getExperience(), levelRequirement(), manaCap, manaCurr, manaCost, spellPower, hitsCount, abilityRange);
+
+    }
+
+    @Override
+    public int getSARange(){
+        return abilityRange;
+    }
+
+
 }

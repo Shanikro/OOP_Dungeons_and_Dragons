@@ -5,6 +5,7 @@ import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,6 +15,7 @@ public class Board {
     private Player player;
     private List<Enemy> enemies;
     private final int width;
+    //private final Printer printer = PrinterC.getInstance();
 
     public Board(List<Tile> tiles, Player p, List<Enemy> enemies, int width){
         this.player = p;
@@ -23,6 +25,10 @@ public class Board {
         for(Tile t : tiles){
             board.put(t.getPosition(), t);
         }
+    }
+
+    public Tile getTile(int x, int y){
+        return board.get(new Position(x, y));
     }
 
     @Override
@@ -36,4 +42,19 @@ public class Board {
         }
         return sb.toString();
     }
+
+    public List<Enemy> enemiesInRange(int abilityRange) {
+        List<Enemy> enemyList = new ArrayList<>();
+        for(Enemy e: enemies){
+            if(player.getPosition().range(e.getPosition()) < abilityRange)
+                enemyList.add(e);
+        }
+        return enemyList;
+    }
+
+    public void setTile(Tile tile, Position position){
+        board.put(position,tile);
+    }
+
+
 }

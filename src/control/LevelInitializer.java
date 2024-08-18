@@ -1,23 +1,17 @@
-package control.initializers;
+package control;
 
-import model.tiles.Empty;
-import model.tiles.Tile;
-import model.tiles.Wall;
-import model.tiles.units.players.Player;
 import utils.Position;
-import utils.callbacks.DeathCallback;
-import utils.callbacks.MessageCallback;
-import utils.generators.FixedGenerator;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 public class LevelInitializer {
+
     private int playerID;
-    private TileFactory tileFactory = new TileFactory();
+    private final TileFactory tileFactory = TileFactory.getInstance();
+
 
     public LevelInitializer(int playerID){
         this.playerID = playerID;
@@ -47,7 +41,7 @@ public class LevelInitializer {
                         tileFactory.producePlayer(playerID);
                         break;
                     default:
-                        tileFactory.produceEnemy(c, position, , new FixedGenerator(),);
+                        tileFactory.produceEnemy(c, position);
                         break;
                 }
                 col++;
@@ -56,4 +50,4 @@ public class LevelInitializer {
         }
         }
     }
-}
+

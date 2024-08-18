@@ -1,7 +1,12 @@
 package model.tiles.units.players;
 
+import model.game.Board;
+import model.tiles.Tile;
 import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
+import utils.callbacks.MessageCallback;
+
+import java.util.List;
 
 public abstract class Player extends Unit {
     public static final char PLAYER_TILE = '@';
@@ -26,7 +31,7 @@ public abstract class Player extends Unit {
         }
     }
 
-    public void levelUp(){
+    public MessageCallback levelUp(){
         this.experience -= levelRequirement();
         this.level++;
         int healthGain = healthGain();
@@ -36,6 +41,8 @@ public abstract class Player extends Unit {
         health.heal();
         attack += attackGain;
         defense += defenseGain;
+
+        return () -> {};
     }
 
     protected int levelRequirement(){
@@ -55,24 +62,48 @@ public abstract class Player extends Unit {
     }
 
     @Override
-    public void accept(Unit unit) {
-        unit.visit(this);
+    public MessageCallback accept(Tile tile) {
+        return tile.visit(this);
     }
 
-    public void visit(Player p){
-        // Do nothing
+    @Override
+    public MessageCallback visit(Player p){
+        return ()->{};
     }
 
-    public void visit(Enemy e){
-        battle(e);
-        if(!e.alive()){
-            addExperience(e.experienceValue());
-            e.onDeath();
+    @Override
+    public MessageCallback visit(Enemy e){
+        StringBuilder output = new StringBuilder();
+
+        //Battle
+        String battleString = battle(e);
+        output.append(battleString);
+
+        //Enemy dead
+        if (!e.isAlive()) {
+            addExperience(e.getExperienceValue());
+            output.append(String.format("%s died. %s gained %d experience\n", e.getName(), getName(), e.getExperienceValue()));
+            e.swapPosition(this);
         }
+
+        return () -> printer.print(output.toString());
     }
 
     @Override
     public void onDeath() {
-        //TODO: Implement onDeath
+        if(!isAlive())
+            tile='X';
     }
+
+    public int getLevel() {return level;}
+
+    public int getExperience() {return experience;}
+
+    public abstract void gameTick();
+
+    public abstract MessageCallback useSA(List<Enemy> enemies);
+
+    public abstract int getSARange();
+
+
 }
