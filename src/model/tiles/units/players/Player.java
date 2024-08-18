@@ -72,7 +72,7 @@ public abstract class Player extends Unit {
     }
 
     @Override
-    public MessageCallback visit(Enemy e){
+    public MessageCallback visit(Enemy e) {
         StringBuilder output = new StringBuilder();
 
         //Battle
@@ -86,7 +86,9 @@ public abstract class Player extends Unit {
             e.swapPosition(this);
         }
 
-        return (s) -> printer.print(output.toString());
+        MessageCallback callback = (s) -> printer.print(output.toString());
+        callback.send("");
+        return callback;
     }
 
     @Override
