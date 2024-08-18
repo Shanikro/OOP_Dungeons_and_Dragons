@@ -33,14 +33,40 @@ public class Level {
     }
 
 
-    public void action(String input)
+    public void act(String input)
     {
         switch (input)
         {
-            case "w" -> board.getTile(factory.getPlayer().getPosition().getX()- 1,factory.getPlayer().getPosition().getY()).accept(factory.getPlayer());
-            case "s" -> board.getTile(factory.getPlayer().getPosition().getX()+1,factory.getPlayer().getPosition().getY()).accept(factory.getPlayer());
-            case "a" -> board.getTile(factory.getPlayer().getPosition().getX(),factory.getPlayer().getPosition().getY()-1).accept(factory.getPlayer());
-            case "d" -> board.getTile(factory.getPlayer().getPosition().getX(), factory.getPlayer().getPosition().getY() + 1).accept(factory.getPlayer());
+            case "w" -> {
+                Tile swap = board.getTile(factory.getPlayer().getPosition().up());
+                swap.accept(factory.getPlayer());
+                //swap position at board
+                board.setTile(factory.getPlayer(),factory.getPlayer().getPosition());
+                board.setTile(swap,swap.getPosition());
+            }
+
+            case "s" -> {
+                Tile swap = board.getTile(factory.getPlayer().getPosition().down());
+                swap.accept(factory.getPlayer());
+                //swap position at board
+                board.setTile(factory.getPlayer(),factory.getPlayer().getPosition());
+                board.setTile(swap,swap.getPosition());
+            }
+            case "a" -> {
+                Tile swap = board.getTile(factory.getPlayer().getPosition().left());
+                swap.accept(factory.getPlayer());
+                //swap position at board
+                board.setTile(factory.getPlayer(), factory.getPlayer().getPosition());
+                board.setTile(swap, swap.getPosition());
+            }
+            case "d" -> {
+                Tile swap = board.getTile(factory.getPlayer().getPosition().right());
+                swap.accept(factory.getPlayer());
+                //swap position at board
+                board.setTile(factory.getPlayer(),factory.getPlayer().getPosition());
+                board.setTile(swap,swap.getPosition());
+            }
+
             case "e" -> factory.getPlayer().useSA(board.enemiesInRange(factory.getPlayer().getSARange())); //Special Ability
 
             default -> {}
@@ -54,17 +80,16 @@ public class Level {
     }
 
     public void gameTick(String action){
-        //TODO
-    }
-
-    public boolean gameOver() {
-        //TODO
-        return false;
+        act(action);
+        for (Enemy e : enemies) {
+            Position p = e.takeTurn(factory.getPlayer());
+            Tile t = board.getTile(p);
+            e.accept(t);
+        }
     }
 
     public boolean isOver() {
-        //TODO
-        return false;
+        return enemies.isEmpty();
     }
 
     public Board getBoard() {

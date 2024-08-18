@@ -34,6 +34,10 @@ public class Board {
         return board.get(new Position(x, y));
     }
 
+    public Tile getTile(Position p){
+        return board.get(p);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

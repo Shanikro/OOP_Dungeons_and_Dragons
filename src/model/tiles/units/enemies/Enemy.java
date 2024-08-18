@@ -54,4 +54,6 @@ public abstract class Enemy extends Unit {
         return "" + tile;
     }
 
+    public abstract Position takeTurn(Player player);
+
 }

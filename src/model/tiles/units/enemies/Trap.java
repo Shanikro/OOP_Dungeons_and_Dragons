@@ -4,6 +4,7 @@ import model.game.Board;
 import model.tiles.Tile;
 import model.tiles.units.Unit;
 import model.tiles.units.players.Player;
+import utils.Position;
 import utils.callbacks.MessageCallback;
 
 public class Trap extends Enemy {
@@ -21,7 +22,8 @@ public class Trap extends Enemy {
         this.visible = true;
     }
 
-    public MessageCallback takeTurn(Player player) {
+    @Override
+    public Position takeTurn(Player player) {
         visible = ticksCount < visibilityTime;
 
         if (ticksCount == (visibilityTime + invisibilityTime)) {
@@ -31,10 +33,10 @@ public class Trap extends Enemy {
         }
 
         if (player.getPosition().range(this.getPosition()) < RANGE) {
-            return this.visit(player);
-        } else {
-            return (s) -> {};
+            return player.getPosition();
         }
+        else
+            return this.getPosition();
     }
 
     @Override

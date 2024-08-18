@@ -3,6 +3,7 @@ package control;
 import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import utils.Position;
+import utils.generators.RandomGenerator;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -52,7 +53,7 @@ public class LevelInitializer {
                         boardTiles.add(tileFactory.producePlayer(position));
                         break;
                     default:
-                        Enemy enemy = tileFactory.produceEnemy(c,position);
+                        Enemy enemy = tileFactory.produceEnemy(c,position,new RandomGenerator());
                         boardTiles.add(enemy);
                         enemeis.add(enemy);
                         break;

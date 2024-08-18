@@ -49,9 +49,10 @@ public class Game {
         int levelNumber = 1;
         this.currentLevel = new Level(levelNumber,msg,new LevelInitializer(directoryPath));
 
-        while (!currentLevel.gameOver() && levelNumber < levelsAmount) {
+        while (!gameOver() && levelNumber < levelsAmount) {
 
-            while (!currentLevel.gameOver() && !currentLevel.isOver()) {
+            while (!gameOver() && !currentLevel.isOver()) {
+                msg.send(player.describe() + "\n");
                 msg.send(currentLevel.getBoard().toString());
                 String action = scanner.nextLine();
                 currentLevel.gameTick(action);
@@ -60,7 +61,10 @@ public class Game {
             levelNumber++;
         }
 
-        msg.send("\n GAME OVER!!!");
+        if(gameOver())
+            msg.send("\n GAME OVER!");
+        else
+            msg.send("\n YOU WON!");
     }
 
     private int getLevelNumber(String directoryPath) {
@@ -82,6 +86,10 @@ public class Game {
 
     private void setPlayer(Player player) {
         this.player = player;
+    }
+
+    private boolean gameOver() {
+        return !player.isAlive();
     }
 }
 

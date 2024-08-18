@@ -21,6 +21,22 @@ public class Position implements Comparable<Position> {
         return y;
     }
 
+    public Position left() {
+        return new Position(this.getX() - 1, this.getY());
+    }
+
+    public Position right() {
+        return new Position(this.getX() + 1, this.getY());
+    }
+
+    public Position up() {
+        return new Position(this.getX() , this.getY() - 1);
+    }
+
+    public Position down() {
+        return new Position(this.getX(), this.getY() + 1);
+    }
+
     @Override
     public int compareTo(Position o) {
        if (y < o.y){

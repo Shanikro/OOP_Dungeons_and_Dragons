@@ -11,6 +11,7 @@ import model.tiles.units.players.Player;
 import model.tiles.units.players.Warrior;
 import model.tiles.units.players.Rogue;
 import utils.Position;
+import utils.generators.Generator;
 import utils.printer.Printer;
 import utils.printer.PrinterC;
 
@@ -75,9 +76,9 @@ public class TileFactory {
         return this.p;
     }
 
-    public Enemy produceEnemy(char tile, Position p) {
+    public Enemy produceEnemy(char tile, Position p, Generator g) {
         Enemy e = enemiesTypes.get(tile).get();
-        e.initialize(p);
+        e.initialize(p,g);
         return e;
     }
 
