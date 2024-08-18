@@ -15,11 +15,13 @@ public class LevelInitializer {
     private final TileFactory tileFactory = TileFactory.getInstance();
     private String levelsPath;
     private List<Enemy> enemeis;
+    private int width;
 
 
     public LevelInitializer(String levelsPath){
         this.levelsPath = levelsPath;
         this.enemeis = new ArrayList<>();
+
     }
 
     public List<Tile> initLevel(int levelNum){
@@ -32,6 +34,7 @@ public class LevelInitializer {
         }
 
         List<Tile> boardTiles = new ArrayList<>();
+        this.width = getWidth(lines);
 
         int row = 0;
         for(String line : lines){
@@ -62,8 +65,16 @@ public class LevelInitializer {
         return boardTiles;
         }
 
+    private int getWidth(List<String> lines) {
+        return lines.get(0).length();
+    }
+
     public List<Enemy> getEnemeis() {
         return this.enemeis;
+    }
+
+    public int getWidth(){
+        return this.width;
     }
 
 }

@@ -36,4 +36,9 @@ public class Empty extends Tile {
     public MessageCallback accept(Tile tile) {
        return tile.visit(this);
     }
+
+    @Override
+    public String toString(){
+        return "" + EMPTY_TILE;
+    }
 }

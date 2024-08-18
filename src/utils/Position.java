@@ -1,6 +1,6 @@
 package utils;
 
-public class Position {
+public class Position implements Comparable<Position> {
     private int x;
     private int y;
 
@@ -20,4 +20,23 @@ public class Position {
     public int getY() {
         return y;
     }
-}
+
+    @Override
+    public int compareTo(Position o) {
+       if (y < o.y){
+           return -1;
+       }
+       if (y > o.y) {
+           return 1;
+       }
+       if (x < o.x) {
+           return -1;
+       }
+       if (x > o.x) {
+           return 1;
+       }
+
+       return 0;
+       }
+    }
+

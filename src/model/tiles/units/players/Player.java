@@ -105,5 +105,10 @@ public abstract class Player extends Unit {
 
     public abstract int getSARange();
 
+    @Override
+    public String toString(){
+        return "" + PLAYER_TILE;
+    }
+
 
 }

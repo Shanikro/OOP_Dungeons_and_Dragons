@@ -24,30 +24,27 @@ public class Level {
 
         this.levelBuilder = levelBuilder;
         this.msg = callback;
-        this.enemies = levelBuilder.getEnemeis();
 
         List<Tile> tileList = levelBuilder.initLevel(currentLevel);
+        this.enemies = levelBuilder.getEnemeis();
 
-        board = new Board(tileList,enemies,);
+        board = new Board(tileList,enemies,levelBuilder.getWidth());
 
     }
 
 
-    public MessageCallback action(String input)
+    public void action(String input)
     {
-        MessageCallback action;
         switch (input)
         {
-            case "w" -> action = board.getTile(factory.getPlayer().getPosition().getX()- 1,factory.getPlayer().getPosition().getY()).accept(factory.getPlayer());
-            case "s" -> action = board.getTile(factory.getPlayer().getPosition().getX()+1,factory.getPlayer().getPosition().getY()).accept(factory.getPlayer());
-            case "a" -> action = board.getTile(factory.getPlayer().getPosition().getX(),factory.getPlayer().getPosition().getY()-1).accept(factory.getPlayer());
-            case "d" -> action = board.getTile(factory.getPlayer().getPosition().getX(), factory.getPlayer().getPosition().getY() + 1).accept(factory.getPlayer());
-            case "e" -> action = factory.getPlayer().useSA(board.enemiesInRange(factory.getPlayer().getSARange())); //Special Ability
+            case "w" -> board.getTile(factory.getPlayer().getPosition().getX()- 1,factory.getPlayer().getPosition().getY()).accept(factory.getPlayer());
+            case "s" -> board.getTile(factory.getPlayer().getPosition().getX()+1,factory.getPlayer().getPosition().getY()).accept(factory.getPlayer());
+            case "a" -> board.getTile(factory.getPlayer().getPosition().getX(),factory.getPlayer().getPosition().getY()-1).accept(factory.getPlayer());
+            case "d" -> board.getTile(factory.getPlayer().getPosition().getX(), factory.getPlayer().getPosition().getY() + 1).accept(factory.getPlayer());
+            case "e" -> factory.getPlayer().useSA(board.enemiesInRange(factory.getPlayer().getSARange())); //Special Ability
 
-            default -> action = (s) -> {};
-        };
-        gameTick();
-        return action;
+            default -> {}
+        }
     }
 
     public void removeEnemy(Enemy enemy) {
@@ -56,8 +53,19 @@ public class Level {
         board.setTile(factory.produceEmpty(p),p);
     }
 
-    public void gameTick(){
+    public void gameTick(String action){
         //TODO
     }
 
+    public boolean gameOver() {
+        //TODO
+    }
+
+    public boolean isOver() {
+        //TODO
+    }
+
+    public Board getBoard() {
+        return board;
+    }
 }

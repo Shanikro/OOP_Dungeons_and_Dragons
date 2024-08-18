@@ -49,4 +49,9 @@ public abstract class Enemy extends Unit {
     // Level responsibility
     public void onDeath() {}
 
+    @Override
+    public String toString(){
+        return "" + tile;
+    }
+
 }
