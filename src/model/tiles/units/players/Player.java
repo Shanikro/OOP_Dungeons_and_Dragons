@@ -17,6 +17,7 @@ public abstract class Player extends Unit {
 
     protected int level;
     protected int experience;
+    private MessageCallback msg;
 
     public Player(String name, int hitPoints, int attack, int defense) {
         super(PLAYER_TILE, name, hitPoints, attack, defense);
@@ -68,6 +69,7 @@ public abstract class Player extends Unit {
 
     @Override
     public MessageCallback visit(Player p){
+
         return (s)->{};
     }
 
@@ -86,7 +88,7 @@ public abstract class Player extends Unit {
             e.swapPosition(this);
         }
 
-        return (s) -> printer.print(output.toString());
+        return (s)->printer.print(output.toString());
     }
 
     @Override
