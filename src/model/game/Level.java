@@ -90,7 +90,7 @@ public class Level {
             if (e.isAlive()) {
                 Position p = e.takeTurn(factory.getPlayer());
                 Tile t = board.getTile(p);
-                t.accept(e); //TODO
+                t.accept(e);
 
                 //swap position at board
                 board.setTile(e,e.getPosition());

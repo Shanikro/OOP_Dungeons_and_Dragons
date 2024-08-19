@@ -36,7 +36,7 @@ public class Mage  extends Player{
     }
 
     @Override
-    public MessageCallback levelUp(){
+    public String levelUp(){
 
         //Before level up
         int attackB = getAttack();
@@ -57,7 +57,7 @@ public class Mage  extends Player{
         int manaDiff =  manaCap - manaB;
         int spellDiff = spellPower - spellB;
 
-        return (s) -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d maximum mana, +%d spell power\n"
+        return String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d maximum mana, +%d spell power\n"
                 , getName(), getLevel(), healthDiff, attackDiff, defenceDiff, manaDiff, spellDiff);
     }
 
@@ -73,7 +73,9 @@ public class Mage  extends Player{
 
         if (manaCurr < manaCost){
             output.append(getName()).append(String.format(" tried to cast Blizzard, but there was'nt enougt mana: %s.\n", manaCurr));
-            return (s)-> printer.print(output.toString());
+            MessageCallback callback = (s) -> printer.print(output.toString());
+            callback.send("");
+            return callback;
         }
 
         this.manaCurr -= this.manaCost ;

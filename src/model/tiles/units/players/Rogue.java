@@ -21,7 +21,7 @@ public class Rogue extends Player{
     }
 
     @Override
-    public MessageCallback levelUp()
+    public String levelUp()
     {
         //Before level up
         int attackB = getAttack();
@@ -37,8 +37,9 @@ public class Rogue extends Player{
         int defenceDiff = getDefense() - defenceB;
         int healthDiff = health.getCurrent() - healthB;
 
-        return (s) -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
+        return String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence\n"
                 , getName(), getLevel(), healthDiff, attackDiff, defenceDiff);
+
     }
 
     //game tick
@@ -53,7 +54,9 @@ public class Rogue extends Player{
 
         if (currEnergy < cost) {
             output.append(getName()).append(String.format(" tried to cast Fan Of Knives, but there was'nt enougt energy: %s.\n", currEnergy));
-            return (s) -> printer.print(output.toString());
+            MessageCallback callback = (s) -> printer.print(output.toString());
+            callback.send("");
+            return callback;
         }
 
         this.currEnergy -= this.cost;
