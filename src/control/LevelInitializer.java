@@ -50,7 +50,7 @@ public class LevelInitializer {
                         boardTiles.add(tileFactory.produceWall(position));
                         break;
                     case '@':
-                        boardTiles.add(tileFactory.producePlayer(position));
+                        boardTiles.add(tileFactory.producePlayer(position,new RandomGenerator()));
                         break;
                     default:
                         Enemy enemy = tileFactory.produceEnemy(c,position,new RandomGenerator());

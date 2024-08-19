@@ -41,7 +41,7 @@ public class TileFactory {
         playerTypes = new TreeMap<>();
         playerTypes.put(1, () -> new Warrior("Jon Snow", 30, 4, 300, 3));
         playerTypes.put(2, () -> new Warrior("The Hound", 20, 6, 400, 5));
-        playerTypes.put(3, () -> new Mage("Melisandre", 100, 2, 1, 300, 30, 15, 5, 6));
+        playerTypes.put(3, () -> new Mage("Melisandre", 100, 5, 1, 300, 30, 15, 5, 6));
         playerTypes.put(4, () -> new Mage("Thoros of Myr", 250, 25, 4, 150, 20, 20, 3, 4));
         playerTypes.put(5, () -> new Rogue("Arya Stark", 150, 40, 2, 20));
         playerTypes.put(6, () -> new Rogue("Bronn", 250, 35, 3, 50));
@@ -71,8 +71,8 @@ public class TileFactory {
         return this.p;
     }
 
-    public Player producePlayer(Position position) {
-        this.p.initialize(position);
+    public Player producePlayer(Position p,Generator g) {
+        this.p.initialize(p,g);
         return this.p;
     }
 

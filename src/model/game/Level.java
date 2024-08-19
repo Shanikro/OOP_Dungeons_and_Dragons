@@ -82,9 +82,14 @@ public class Level {
     public void gameTick(String action){
         act(action);//TODO- צריך שבswap postion זה ישנה גם בלוח עצמו ולא רק בשדות
         for (Enemy e : enemies) {
-            Position p = e.takeTurn(factory.getPlayer());
-            Tile t = board.getTile(p);
-            e.accept(t); //TODO-צריך לתקן,אמור להיות הפוך והוא לא עובד
+            if(e.isAlive()) {
+                Position p = e.takeTurn(factory.getPlayer());
+                Tile t = board.getTile(p);
+                e.accept(t); //TODO-צריך לתקן,אמור להיות אולי הפוך והוא לא עובד
+            }
+            else{
+                removeEnemy(e);
+            }
         }
     }
 
