@@ -55,7 +55,9 @@ public class Game {
                 msg.send("\n" + player.describe() + "\n");
                 msg.send(currentLevel.getBoard().toString());
                 String action = scanner.nextLine();
+                player.gameTick();
                 currentLevel.gameTick(action);
+                
             }
 
             levelNumber++;
