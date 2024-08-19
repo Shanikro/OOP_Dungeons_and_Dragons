@@ -1,6 +1,6 @@
 import model.tiles.units.enemies.*;
 import model.tiles.units.players.*;
-import org.junit.Assert;
+import org.junit.*;
 import org.junit.Before;
 import org.junit.Test;
 import utils.Position;
