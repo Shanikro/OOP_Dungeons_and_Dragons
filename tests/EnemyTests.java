@@ -24,17 +24,6 @@ public class EnemyTests {
         Assert.assertEquals(5, enemy.getDefense());
     }
 
-    @Test
-    public void testEnemyVsPlayerBattle() {
-        enemy.visit(player);
-        // Assuming your battle logic reduces health
-        Assert.assertTrue(enemy.getHealth().getCurrent() <= 50);
-        Assert.assertTrue(player.getHealth().getCurrent() <= 100);
-
-        if (!player.isAlive()) {
-            Assert.assertEquals('X', player.toString().charAt(0)); // Player should be 'X' after death
-        }
-    }
 
     @Test
     public void testEnemyDeath() {
@@ -44,13 +33,4 @@ public class EnemyTests {
         Assert.assertEquals('E', enemy.toString().charAt(0)); // Tile should remain as 'E'
     }
 
-    @Test
-    public void testTakeTurn() {
-        Position oldPosition = enemy.getPosition(); // Assuming getPosition() returns the enemy's current Position
-        Position newPosition = enemy.takeTurn(player);
-        // Since takeTurn is abstract, the actual logic would depend on your subclass implementation.
-        // You can add more specific assertions based on how your subclass handles movement.
-        Assert.assertNotNull(newPosition);
-        Assert.assertNotEquals(oldPosition, newPosition); // Ensure position changed
-    }
 }

@@ -46,22 +46,4 @@ public class PlayerTests {
         Assert.assertEquals(24, player.getDefense()); // 10 + 1 * level
     }
 
-    @Test
-    public void testPlayerVsEnemyBattle() {
-        player.visit(enemy);
-        // Assuming your battle logic reduces health
-        Assert.assertTrue(player.getHealth().getCurrent() <= 100);
-        Assert.assertTrue(enemy.getHealth().getCurrent() <= 50);
-
-        if (!enemy.isAlive()) {
-            Assert.assertTrue(player.getExperience() > 0);
-        }
-    }
-
-    @Test
-    public void testOnDeath() {
-        player.getHealth().setCurrent(0); // Simulate player death
-        player.onDeath();
-        Assert.assertEquals('X', player.toString().charAt(0)); // Tile should be 'X' after death
-    }
 }

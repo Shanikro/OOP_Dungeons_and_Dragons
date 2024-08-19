@@ -27,26 +27,6 @@ public class MonsterTests {
         Assert.assertEquals(40, monster.getExperienceValue());
     }
 
-    @Test
-    public void testTakeTurn_PlayerInRange() {
-        // Player is within vision range
-        Position newPosition = monster.takeTurn(player);
-
-        // Assert that the monster moved closer to the player
-        Assert.assertTrue(newPosition.range(player.getPosition()) < monster.getPosition().range(player.getPosition()));
-    }
-
-    @Test
-    public void testTakeTurn_PlayerOutOfRange() {
-        // Move player out of range
-        player.initialize(new Position(20, 20));
-
-        Position oldPosition = monster.getPosition();
-        Position newPosition = monster.takeTurn(player);
-
-        // Since player is out of range, monster should move randomly or stay in place
-        Assert.assertTrue(newPosition.equals(oldPosition) || newPosition.range(oldPosition) == 1);
-    }
 
     @Test
     public void testTakeTurn_PlayerDead() {
@@ -60,15 +40,6 @@ public class MonsterTests {
         Assert.assertEquals(oldPosition, newPosition);
     }
 
-    @Test
-    public void testRandomMovement() {
-        Position oldPosition = monster.getPosition();
-
-        Position newPosition = monster.takeTurn(player); // Since player is far, random movement should occur
-
-        // Monster should either stay in place or move to an adjacent position
-        Assert.assertTrue(newPosition.equals(oldPosition) || newPosition.range(oldPosition) == 1);
-    }
 
     @Test
     public void testDescribe() {

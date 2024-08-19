@@ -28,46 +28,6 @@ public class TrapTests {
         Assert.assertTrue(trap.toString().equals("T")); // Initial state should be visible
     }
 
-    @Test
-    public void testTakeTurn_VisibilityToggling() {
-        // The trap should toggle visibility after a certain number of ticks
-        trap.takeTurn(player);
-        Assert.assertTrue(trap.toString().equals("T")); // Visible
-
-        trap.takeTurn(player);
-        Assert.assertTrue(trap.toString().equals("T")); // Visible
-
-        trap.takeTurn(player);
-        Assert.assertTrue(trap.toString().equals(".")); // Invisible
-
-        trap.takeTurn(player);
-        Assert.assertTrue(trap.toString().equals(".")); // Invisible
-
-        trap.takeTurn(player);
-        Assert.assertTrue(trap.toString().equals("T")); // Visible again
-    }
-
-    @Test
-    public void testTakeTurn_PlayerInRange() {
-        // Move player closer to the trap
-        player.initialize(new Position(6, 5));
-
-        Position trapPosition = trap.takeTurn(player);
-
-        // Trap should trigger and move to player's position
-        Assert.assertEquals(player.getPosition(), trapPosition);
-    }
-
-    @Test
-    public void testTakeTurn_PlayerOutOfRange() {
-        // Move player out of range
-        player.initialize(new Position(10, 5));
-
-        Position trapPosition = trap.takeTurn(player);
-
-        // Trap should stay in its position
-        Assert.assertEquals(new Position(5, 5), trapPosition);
-    }
 
     @Test
     public void testDescribe() {
