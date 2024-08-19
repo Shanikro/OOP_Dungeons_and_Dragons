@@ -89,6 +89,7 @@ public class Level {
             }
             else{
                 removeEnemy(e);
+                break;
             }
         }
     }
