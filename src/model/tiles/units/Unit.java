@@ -48,7 +48,7 @@ public abstract class Unit extends Tile {
         StringBuilder output = new StringBuilder();
 
         //Starting a Battle
-        output.append(String.format("%s engaged in combat with %s\n%s%s",
+        output.append(String.format("%s engaged in combat with %s\n\n%s%s\n",
                 getName(), other.getName(),
                 describe(), other.describe()));
 

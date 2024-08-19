@@ -49,15 +49,15 @@ public class TileFactory {
         // Monsters
         enemiesTypes = new HashMap<>();
         enemiesTypes.put('s', () -> new Monster('s', "Lannister Solider", 80, 8, 3, 25, 3));
-        enemiesTypes.put('k', () -> new Monster('k', "Lannister Knight", 200, 14, 8, 4, 50));
-        enemiesTypes.put('q', () -> new Monster('q', "Queen’s Guard", 400, 20, 15, 5, 100));
-        enemiesTypes.put('z', () -> new Monster('z', "Wright", 600, 30, 15, 3, 100));
-        enemiesTypes.put('b', () -> new Monster('b', "Bear-Wright", 1000, 75, 30, 4, 250));
-        enemiesTypes.put('g', () -> new Monster('g', "Giant-Wright", 1500, 100, 40, 5, 500));
-        enemiesTypes.put('w', () -> new Monster('w', "White Walker", 2000, 150, 50, 6, 1000));
-        enemiesTypes.put('M', () -> new Monster('M', "The Mountain", 1000, 60, 25, 6, 500));
-        enemiesTypes.put('C', () -> new Monster('C', "Queen Cersei", 100, 10, 10, 1, 1000));
-        enemiesTypes.put('K', () -> new Monster('K', "Night’s King", 5000, 300, 150, 8, 5000));
+        enemiesTypes.put('k', () -> new Monster('k', "Lannister Knight", 200, 14, 8, 50, 4));
+        enemiesTypes.put('q', () -> new Monster('q', "Queen’s Guard", 400, 20, 15, 100, 5));
+        enemiesTypes.put('z', () -> new Monster('z', "Wright", 600, 30, 15, 100, 3));
+        enemiesTypes.put('b', () -> new Monster('b', "Bear-Wright", 1000, 75, 30, 250, 4));
+        enemiesTypes.put('g', () -> new Monster('g', "Giant-Wright", 1500, 100, 40, 500, 5));
+        enemiesTypes.put('w', () -> new Monster('w', "White Walker", 2000, 150, 50, 1000, 6));
+        enemiesTypes.put('M', () -> new Monster('M', "The Mountain", 1000, 60, 25, 500, 6));
+        enemiesTypes.put('C', () -> new Monster('C', "Queen Cersei", 100, 10, 10, 1000, 1));
+        enemiesTypes.put('K', () -> new Monster('K', "Night’s King", 5000, 300, 150, 5000, 8));
         // Traps
         enemiesTypes.put('B', () -> new Trap('B', "Bonus Trap", 1, 1, 1, 250, 1, 5));
         enemiesTypes.put('Q', () -> new Trap('Q', "Queen’s Trap", 250, 50, 10, 100, 3, 7));

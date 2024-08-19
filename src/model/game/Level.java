@@ -80,17 +80,29 @@ public class Level {
     }
 
     public void gameTick(String action){
-        act(action);//TODO- צריך שבswap postion זה ישנה גם בלוח עצמו ולא רק בשדות
+        act(action);
+        enemyGameTick();
+    }
+
+    public void enemyGameTick(){
+        List<Enemy> toRemove = new ArrayList<>();
         for (Enemy e : enemies) {
-            if(e.isAlive()) {
+            if (e.isAlive()) {
                 Position p = e.takeTurn(factory.getPlayer());
                 Tile t = board.getTile(p);
-                e.accept(t); //TODO-צריך לתקן,אמור להיות אולי הפוך והוא לא עובד
+                t.accept(e);
+
+                //swap position at board
+                board.setTile(e,e.getPosition());
+                board.setTile(t,t.getPosition());
+
+            } else {
+                toRemove.add(e);
             }
-            else{
-                removeEnemy(e);
-                break;
-            }
+        }
+
+        for (Enemy e : toRemove){
+            removeEnemy(e);
         }
     }
 
