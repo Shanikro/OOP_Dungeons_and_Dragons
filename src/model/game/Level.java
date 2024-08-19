@@ -1,41 +1,76 @@
 package model.game;
 
+import control.LevelInitializer;
 import control.TileFactory;
+import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import utils.callbacks.MessageCallback;
 import utils.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Level {
+
+    private LevelInitializer levelBuilder;
+    private MessageCallback msg;
     private Board board;
     private List<Enemy> enemies;
-    private MessageCallback msg;
     private final TileFactory factory = TileFactory.getInstance();
 
 
-    public Level(String levelPath,MessageCallback callback) {
-        this.enemies = new LinkedList<>();
-        //this.buildLevel = new LevelInitializer(path);
+    public Level(int currentLevel,MessageCallback callback,LevelInitializer levelBuilder) {
+
+        this.levelBuilder = levelBuilder;
+        this.msg = callback;
+
+        List<Tile> tileList = levelBuilder.initLevel(currentLevel);
+        this.enemies = levelBuilder.getEnemeis();
+
+        board = new Board(tileList,enemies,levelBuilder.getWidth());
+
     }
 
 
-    public MessageCallback action(String input)
+    public void act(String input)
     {
-        MessageCallback action;
         switch (input)
         {
-            case "w" -> action = board.getTile(factory.getPlayer().getPosition().getX()- 1,factory.getPlayer().getPosition().getY()).accept(factory.getPlayer());
-            case "s" -> action = board.getTile(factory.getPlayer().getPosition().getX()+1,factory.getPlayer().getPosition().getY()).accept(factory.getPlayer());
-            case "a" -> action = board.getTile(factory.getPlayer().getPosition().getX(),factory.getPlayer().getPosition().getY()-1).accept(factory.getPlayer());
-            case "d" -> action = board.getTile(factory.getPlayer().getPosition().getX(), factory.getPlayer().getPosition().getY() + 1).accept(factory.getPlayer());
-            case "e" -> action = factory.getPlayer().useSA(board.enemiesInRange(factory.getPlayer().getSARange())); //Special Ability
+            case "w" -> {
+                Tile swap = board.getTile(factory.getPlayer().getPosition().up());
+                swap.accept(factory.getPlayer());
+                //swap position at board
+                board.setTile(factory.getPlayer(),factory.getPlayer().getPosition());
+                board.setTile(swap,swap.getPosition());
+            }
 
-            default -> action = (s) -> {};
-        };
-        gameTick();
-        return action;
+            case "s" -> {
+                Tile swap = board.getTile(factory.getPlayer().getPosition().down());
+                swap.accept(factory.getPlayer());
+                //swap position at board
+                board.setTile(factory.getPlayer(),factory.getPlayer().getPosition());
+                board.setTile(swap,swap.getPosition());
+            }
+            case "a" -> {
+                Tile swap = board.getTile(factory.getPlayer().getPosition().left());
+                swap.accept(factory.getPlayer());
+                //swap position at board
+                board.setTile(factory.getPlayer(), factory.getPlayer().getPosition());
+                board.setTile(swap, swap.getPosition());
+            }
+            case "d" -> {
+                Tile swap = board.getTile(factory.getPlayer().getPosition().right());
+                swap.accept(factory.getPlayer());
+                //swap position at board
+                board.setTile(factory.getPlayer(),factory.getPlayer().getPosition());
+                board.setTile(swap,swap.getPosition());
+            }
+
+            case "e" -> factory.getPlayer().useSA(board.enemiesInRange(factory.getPlayer().getSARange())); //Special Ability
+
+            default -> {}
+        }
     }
 
     public void removeEnemy(Enemy enemy) {
@@ -44,8 +79,25 @@ public class Level {
         board.setTile(factory.produceEmpty(p),p);
     }
 
-    public void gameTick(){
-        //TODO
+    public void gameTick(String action){
+        act(action);//TODO- צריך שבswap postion זה ישנה גם בלוח עצמו ולא רק בשדות
+        for (Enemy e : enemies) {
+            if(e.isAlive()) {
+                Position p = e.takeTurn(factory.getPlayer());
+                Tile t = board.getTile(p);
+                e.accept(t); //TODO-צריך לתקן,אמור להיות אולי הפוך והוא לא עובד
+            }
+            else{
+                removeEnemy(e);
+            }
+        }
     }
 
+    public boolean isOver() {
+        return enemies.isEmpty();
+    }
+
+    public Board getBoard() {
+        return board;
+    }
 }

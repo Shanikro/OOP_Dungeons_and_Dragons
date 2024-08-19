@@ -25,13 +25,10 @@ public abstract class Tile implements Visitor , Visited {
         this.position = temp;
     }
 
-    @Override
-    public String toString() {
-        return String.valueOf(tile);
-    }
-
-
     public Position getPosition() {
         return position;
     }
+
+    @Override
+    public abstract String toString();
 }

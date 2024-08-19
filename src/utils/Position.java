@@ -1,6 +1,6 @@
 package utils;
 
-public class Position {
+public class Position implements Comparable<Position> {
     private int x;
     private int y;
 
@@ -20,4 +20,39 @@ public class Position {
     public int getY() {
         return y;
     }
-}
+
+    public Position left() {
+        return new Position(this.getX() - 1, this.getY());
+    }
+
+    public Position right() {
+        return new Position(this.getX() + 1, this.getY());
+    }
+
+    public Position up() {
+        return new Position(this.getX() , this.getY() - 1);
+    }
+
+    public Position down() {
+        return new Position(this.getX(), this.getY() + 1);
+    }
+
+    @Override
+    public int compareTo(Position o) {
+       if (y < o.y){
+           return -1;
+       }
+       if (y > o.y) {
+           return 1;
+       }
+       if (x < o.x) {
+           return -1;
+       }
+       if (x > o.x) {
+           return 1;
+       }
+
+       return 0;
+       }
+    }
+

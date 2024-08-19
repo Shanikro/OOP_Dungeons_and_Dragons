@@ -18,7 +18,6 @@ public abstract class Unit extends Tile {
     protected int defense;
 
     protected Generator generator;
-    protected MessageCallback messageCallback;
 
     public Unit(char tile, String name, int hitPoints, int attack, int defense) {
         super(tile);
@@ -28,10 +27,9 @@ public abstract class Unit extends Tile {
         this.defense = defense;
     }
 
-    public void initialize(Position p, Generator generator, MessageCallback messageCallback){
+    public void initialize(Position p, Generator generator){
         super.initialize(p);
         this.generator = generator;
-        this.messageCallback = messageCallback;
     }
 
     public int attack(){

@@ -17,7 +17,6 @@ public abstract class Player extends Unit {
 
     protected int level;
     protected int experience;
-    private MessageCallback msg;
 
     public Player(String name, int hitPoints, int attack, int defense) {
         super(PLAYER_TILE, name, hitPoints, attack, defense);
@@ -69,12 +68,11 @@ public abstract class Player extends Unit {
 
     @Override
     public MessageCallback visit(Player p){
-
         return (s)->{};
     }
 
     @Override
-    public MessageCallback visit(Enemy e){
+    public MessageCallback visit(Enemy e) {
         StringBuilder output = new StringBuilder();
 
         //Battle
@@ -88,7 +86,9 @@ public abstract class Player extends Unit {
             e.swapPosition(this);
         }
 
-        return (s)->printer.print(output.toString());
+        MessageCallback callback = (s) -> printer.print(output.toString());
+        callback.send("");
+        return callback;
     }
 
     @Override
@@ -106,6 +106,11 @@ public abstract class Player extends Unit {
     public abstract MessageCallback useSA(List<Enemy> enemies);
 
     public abstract int getSARange();
+
+    @Override
+    public String toString(){
+        return "" + PLAYER_TILE;
+    }
 
 
 }

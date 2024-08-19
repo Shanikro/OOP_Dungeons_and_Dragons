@@ -36,4 +36,9 @@ public class Wall extends Tile {
     public MessageCallback accept(Tile tile) {
         return tile.visit(this);
     }
+
+    @Override
+    public String toString(){
+        return "" + WALL_TILE;
+    }
 }

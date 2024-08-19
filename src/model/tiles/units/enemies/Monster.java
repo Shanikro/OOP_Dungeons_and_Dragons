@@ -1,6 +1,5 @@
 package model.tiles.units.enemies;
 
-import model.game.Board;
 import model.tiles.Tile;
 import model.tiles.units.players.Player;
 import utils.Position;
@@ -15,30 +14,31 @@ public class Monster extends Enemy {
         this.visionRange = visionRange;
     }
 
-    public String monsterAction(Player player) {
+    @Override
+    public Position takeTurn(Player player) {
 
         //The player is already dead
         if(!player.isAlive()) {
-            return "";
+            return this.getPosition();
         }
 
         //The player in range
         if (this.getPosition().range(player.getPosition()) < visionRange) {
-            String swapWith ;
+            Position swapWith = player.getPosition();
             int dx = this.getPosition().getX() - player.getPosition().getX();
             int dy = this.getPosition().getY() - player.getPosition().getY();
 
             if (Math.abs(dx) > Math.abs(dy)) {
                 if (dx > 0) {
-                    swapWith = left();
+                    swapWith = swapWith.left();
                 } else {
-                    swapWith = right();
+                    swapWith = swapWith.right();
                 }
             } else {
                 if (dy > 0) {
-                    swapWith = up();
+                    swapWith = swapWith.up();
                 } else {
-                    swapWith = down();
+                    swapWith = swapWith.down();
                 }
             }
             return swapWith;
@@ -50,42 +50,24 @@ public class Monster extends Enemy {
         }
     }
 
-    private String left() {
-        return "d";
-    }
-
-    private String right() {
-        return "a";
-    }
-
-    private String up() {
-        return "w";
-    }
-
-    private String down() {
-        return "s";
-    }
-
-    private String randomMovement() {
-        String swapWith = null;
+    private Position randomMovement() {
+        Position swapWith = this.getPosition();
         int move = this.generator.generate(5);
 
         switch (move) {
             case 0:
-                swapWith = left();
+                swapWith = swapWith.left();
             case 1:
-                swapWith = right();
+                swapWith = swapWith.right();
             case 2:
-                swapWith = up();
+                swapWith = swapWith.up();
             case 3:
-                swapWith = down();
+                swapWith = swapWith.down();
             case 4:
                 // Stay in place
         }
-        if (swapWith != null){
-            return swapWith;
-        }
-        return "";
+
+       return swapWith;
     }
 
     @Override

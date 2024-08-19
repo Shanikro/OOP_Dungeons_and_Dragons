@@ -41,12 +41,21 @@ public abstract class Enemy extends Unit {
             output.append(String.format("%s was killed by %s\nYou lost.\n", p.getName(), getName()));
         }
 
-        return (s)->printer.print(output.toString());
+        MessageCallback callback = (s) -> printer.print(output.toString());
+        callback.send("");
+        return callback;
 
     }
 
     @Override
     // Level responsibility
     public void onDeath() {}
+
+    @Override
+    public String toString(){
+        return "" + tile;
+    }
+
+    public abstract Position takeTurn(Player player);
 
 }
