@@ -47,12 +47,17 @@ public class Warrior extends Player {
         int defenceDiff = getDefense() - defenceB;
         int healthDiff = health.getCurrent() - healthB;
 
-        return (s) -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
+        MessageCallback callback = (s) -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
                 , getName(), getLevel(), healthDiff, attackDiff, defenceDiff);
+        callback.send("");
+        return callback;
+
+ /*       return (s) -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
+                , getName(), getLevel(), healthDiff, attackDiff, defenceDiff);*/
     }
     //game tick
     public void gameTick(){
-        this.remainingCooldown = Math.max(remainingCooldown--,0);
+        this.remainingCooldown = Math.max(this.remainingCooldown-1,0);
     }
 
     @Override
@@ -60,8 +65,10 @@ public class Warrior extends Player {
         StringBuilder output = new StringBuilder();
 
         if (remainingCooldown > 0){
-             output.append(getName()).append(String.format(" tried to cast Avenger's Shield, but there is a cooldown: %s.\n", remainingCooldown));
-             return (s)-> printer.print(output.toString());
+            output.append(getName()).append(String.format(" tried to cast Avenger's Shield, but there is a cooldown: %s.\n", remainingCooldown));
+            MessageCallback callback = (s) -> printer.print(output.toString());
+            callback.send("");
+            return callback;
          }
 
         this.remainingCooldown = this.abilityCooldown;

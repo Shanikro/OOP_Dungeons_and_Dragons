@@ -49,7 +49,7 @@ public class Game {
         int levelNumber = 1;
         this.currentLevel = new Level(levelNumber,msg,new LevelInitializer(directoryPath));
 
-        while (!gameOver() && levelNumber < levelsAmount) {
+        while (!gameOver() && levelNumber <= levelsAmount) {
 
             while (!gameOver() && !currentLevel.isOver()) {
                 msg.send("\n" + player.describe() + "\n");
@@ -59,6 +59,7 @@ public class Game {
             }
 
             levelNumber++;
+            this.currentLevel = new Level(levelNumber,msg,new LevelInitializer(directoryPath));
         }
 
         if(gameOver())
