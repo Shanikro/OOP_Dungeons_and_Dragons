@@ -94,7 +94,9 @@ public class Mage  extends Player{
             }
         }
 
-        return (s)-> printer.print(output.toString());
+        MessageCallback callback = (s) -> printer.print(output.toString());
+        callback.send("");
+        return callback;
     }
 
     private boolean hasLivingEnemyInRange(List<Enemy> enemies) {

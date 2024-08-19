@@ -24,7 +24,7 @@ public class Monster extends Enemy {
 
         //The player in range
         if (this.getPosition().range(player.getPosition()) < visionRange) {
-            Position swapWith = player.getPosition();
+            Position swapWith = this.getPosition();
             int dx = this.getPosition().getX() - player.getPosition().getX();
             int dy = this.getPosition().getY() - player.getPosition().getY();
 

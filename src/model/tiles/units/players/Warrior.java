@@ -80,8 +80,11 @@ public class Warrior extends Player {
              output.append(String.format("There is no enemy within %s range: %d.\n", getName(), ABILITY_RANGE));
          }
 
-        return (s)-> printer.print(output.toString());
-     }
+        MessageCallback callback = (s) -> printer.print(output.toString());
+        callback.send("");
+        return callback;
+    }
+
     @Override
     public String describe()
     {
