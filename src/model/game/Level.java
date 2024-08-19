@@ -80,7 +80,7 @@ public class Level {
     }
 
     public void gameTick(String action){
-        act(action);//TODO- צריך שבswap postion זה ישנה גם בלוח עצמו ולא רק בשדות
+        act(action);
         enemyGameTick();
     }
 
