@@ -29,7 +29,7 @@ public class Warrior extends Player {
     }
 
     @Override
-    public MessageCallback levelUp()
+    public String levelUp()
     {
         //Before level up
         int attackB = getAttack();
@@ -47,14 +47,11 @@ public class Warrior extends Player {
         int defenceDiff = getDefense() - defenceB;
         int healthDiff = health.getCurrent() - healthB;
 
-        MessageCallback callback = (s) -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
+       return String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence\n"
                 , getName(), getLevel(), healthDiff, attackDiff, defenceDiff);
-        callback.send("");
-        return callback;
 
- /*       return (s) -> String.format("%s reached level %d: +%d Health, +%d Attack, +%d Defence +%d\n"
-                , getName(), getLevel(), healthDiff, attackDiff, defenceDiff);*/
     }
+
     //game tick
     public void gameTick(){
         this.remainingCooldown = Math.max(this.remainingCooldown-1,0);
