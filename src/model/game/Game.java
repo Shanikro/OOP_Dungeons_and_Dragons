@@ -61,7 +61,8 @@ public class Game {
             }
 
             levelNumber++;
-            this.currentLevel = new Level(levelNumber,msg,new LevelInitializer(directoryPath));
+            if(levelNumber<=4)
+                this.currentLevel = new Level(levelNumber,msg,new LevelInitializer(directoryPath));
         }
 
         if(gameOver())
