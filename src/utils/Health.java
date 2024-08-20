@@ -32,7 +32,5 @@ public class Health {
         current = capacity;
     }
 
-    public void setCapacity(int capacity) { this.capacity = capacity; }
-
     public void setCurrent(int current) { this.current = current; }
 }
