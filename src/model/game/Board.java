@@ -19,7 +19,7 @@ public class Board {
     private List<Enemy> enemies;
     private final int width;
     private final TileFactory factory = TileFactory.getInstance();
-    private final Printer printer = PrinterC.getInstance();
+    
 
     public Board(List<Tile> tiles, List<Enemy> enemies, int width){
         this.enemies = enemies;
