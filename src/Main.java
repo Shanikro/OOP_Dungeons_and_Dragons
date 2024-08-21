@@ -11,10 +11,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        args = new String[1];
-
-        args[0] = "C:\\Users\\USER\\Dragons\\levels_dir";
-
         View cliV = new CLI();
         MessageCallback callback = cliV.getCallback();
 
